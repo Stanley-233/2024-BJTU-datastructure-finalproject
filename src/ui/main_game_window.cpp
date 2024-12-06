@@ -6,6 +6,7 @@ MainGameWindow::MainGameWindow(QWidget *parent)
     , ui(new Ui::MainGameWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
 }
 
 MainGameWindow::~MainGameWindow() {

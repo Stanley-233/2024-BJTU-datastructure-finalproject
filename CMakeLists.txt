@@ -1,6 +1,6 @@
 ﻿cmake_minimum_required(VERSION 3.16)
 
-project(2024-BJTU-datastructure-finalproject VERSION 0.1 LANGUAGES CXX)
+project(traveller-linkage VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -15,43 +15,43 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Multimedia)
 set(PROJECT_SOURCES
         src/main.cpp
         src/ui/main_game_window.cpp
-        src/network/networkhandler.h
+        src/ui/main_game_window.ui
         src/network/networkhandler.cpp
         res.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(2024-BJTU-datastructure-finalproject
+    qt_add_executable(traveller-linkage
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET 2024-BJTU-datastructure-finalproject APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET traveller-linkage APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(2024-BJTU-datastructure-finalproject SHARED
+        add_library(traveller-linkage SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(2024-BJTU-datastructure-finalproject
+        add_executable(traveller-linkage
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(2024-BJTU-datastructure-finalproject PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Multimedia)
+target_link_libraries(traveller-linkage PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql Qt${QT_VERSION_MAJOR}::Multimedia)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.2024-BJTU-datastructure-finalproject)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER top.bearingwall.travellerlinkage)
 endif()
-set_target_properties(2024-BJTU-datastructure-finalproject PROPERTIES
+set_target_properties(traveller-linkage PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -60,12 +60,12 @@ set_target_properties(2024-BJTU-datastructure-finalproject PROPERTIES
 )
 
 include(GNUInstallDirs)
-install(TARGETS 2024-BJTU-datastructure-finalproject
+install(TARGETS traveller-linkage
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(2024-BJTU-datastructure-finalproject)
+    qt_finalize_executable(traveller-linkage)
 endif()

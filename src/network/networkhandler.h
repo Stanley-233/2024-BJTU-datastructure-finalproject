@@ -1,8 +1,7 @@
 #ifndef NETWORKHANDLER_H
 #define NETWORKHANDLER_H
 
-#include <QObject>
-#include <QNetworkAccessManager>
+#include <QString>
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -24,11 +23,10 @@ public:
     void alreadyRegistered();
 
     private slots:
-    void onLoginReply(QNetworkReply* reply);
-    void onRegisterReply(QNetworkReply* reply);
+    void onNetworkReplay(QNetworkReply* reply);
 
 private:
-    const QUrl apiUrl = QString("http://127.0.0.1:5000/login");
+    QString apiUrl = "http://127.0.0.1:5000/";
     QNetworkAccessManager* networkManager;
 };
 

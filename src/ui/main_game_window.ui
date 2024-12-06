@@ -9,23 +9,26 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>931</width>
-    <height>736</height>
+    <width>930</width>
+    <height>735</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainGameWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(172, 255, 179);</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <widget class="QProgressBar" name="timeBar">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>10</y>
-      <width>831</width>
+      <width>781</width>
       <height>20</height>
      </rect>
     </property>
@@ -49,24 +52,24 @@
    <widget class="QPushButton" name="hintBtn">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>222</y>
-      <width>71</width>
+      <x>840</x>
+      <y>220</y>
+      <width>81</width>
       <height>41</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Rockwell Extra Bold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(170, 255, 255)</string>
+     <string notr="true"/>
     </property>
     <property name="text">
-     <string>hints</string>
+     <string>提示</string>
     </property>
    </widget>
    <widget class="QPushButton" name="robot_btn">
@@ -80,96 +83,16 @@
     </property>
     <property name="font">
      <font>
-      <family>Rockwell Extra Bold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(170, 255, 255)</string>
+     <string notr="true"/>
     </property>
     <property name="text">
-     <string>auto</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>40</y>
-      <width>801</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 5px;
-background-color:rgb(128, 119, 255)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_2">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>810</x>
-      <y>41</y>
-      <width>16</width>
-      <height>634</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 5px;
-background-color:rgb(128, 119, 255)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>40</y>
-      <width>16</width>
-      <height>631</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 5px;
-background-color:rgb(128, 119, 255)</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>660</y>
-      <width>811</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border-radius: 5px;
-background-color:rgb(128, 119, 255)</string>
-    </property>
-    <property name="text">
-     <string/>
+     <string>自动</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pauseBtn">
@@ -183,16 +106,16 @@ background-color:rgb(128, 119, 255)</string>
     </property>
     <property name="font">
      <font>
-      <family>Rockwell Extra Bold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(170, 255, 255)</string>
+     <string notr="true"/>
     </property>
     <property name="text">
-     <string>pause</string>
+     <string>暂停</string>
     </property>
    </widget>
    <widget class="QLabel" name="scoreLab">
@@ -206,12 +129,13 @@ background-color:rgb(128, 119, 255)</string>
     </property>
     <property name="font">
      <font>
-      <pointsize>16</pointsize>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">border-radius: 10px;
-background-color:rgb(253, 255, 110);
+background-color:transparent;
 border-width: 2px;
 border-style: solid;
 border-color: BLACK;</string>
@@ -234,11 +158,16 @@ border-color: BLACK;</string>
     </property>
     <property name="font">
      <font>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
     <property name="text">
      <string>--分数--</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -252,11 +181,16 @@ border-color: BLACK;</string>
     </property>
     <property name="font">
      <font>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
     <property name="text">
      <string>--选项--</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -270,6 +204,7 @@ border-color: BLACK;</string>
     </property>
     <property name="font">
      <font>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -288,6 +223,7 @@ border-color: BLACK;</string>
     </property>
     <property name="font">
      <font>
+      <pointsize>12</pointsize>
       <bold>true</bold>
      </font>
     </property>
@@ -307,7 +243,7 @@ border-color: BLACK;</string>
     <property name="font">
      <font>
       <pointsize>12</pointsize>
-      <bold>false</bold>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -325,23 +261,23 @@ border-color: BLACK;</string>
     </property>
     <property name="font">
      <font>
-      <family>Rockwell Extra Bold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(170, 255, 255)</string>
+     <string notr="true"/>
     </property>
     <property name="text">
-     <string>reset</string>
+     <string>重置</string>
     </property>
    </widget>
    <widget class="QPushButton" name="muteBtn">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>660</y>
+      <x>840</x>
+      <y>610</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -350,7 +286,7 @@ border-color: BLACK;</string>
      <string/>
     </property>
     <property name="icon">
-     <iconset resource="res.qrc">
+     <iconset resource="../../res.qrc">
       <normaloff>:/res/image/open.png</normaloff>:/res/image/open.png</iconset>
     </property>
    </widget>
@@ -365,31 +301,89 @@ border-color: BLACK;</string>
     </property>
     <property name="font">
      <font>
-      <family>Rockwell Extra Bold</family>
-      <pointsize>10</pointsize>
-      <bold>true</bold>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(170, 255, 255)</string>
+     <string notr="true"/>
     </property>
     <property name="text">
-     <string>record</string>
+     <string>记录</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="uploadButton">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>550</y>
+      <width>81</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Microsoft YaHei</family>
+      <pointsize>12</pointsize>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>上传</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="bgLabel">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>931</width>
+      <height>721</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(:/res/image/background.jpg);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>bgLabel</zorder>
+   <zorder>timeBar</zorder>
+   <zorder>label</zorder>
+   <zorder>hintBtn</zorder>
+   <zorder>robot_btn</zorder>
+   <zorder>pauseBtn</zorder>
+   <zorder>scoreLab</zorder>
+   <zorder>label_3</zorder>
+   <zorder>label_4</zorder>
+   <zorder>label_2</zorder>
+   <zorder>label_5</zorder>
+   <zorder>hintsLastLab</zorder>
+   <zorder>resetBtn</zorder>
+   <zorder>muteBtn</zorder>
+   <zorder>recordBtn</zorder>
+   <zorder>uploadButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>931</width>
-     <height>17</height>
+     <width>930</width>
+     <height>33</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(239, 230, 222);</string>
    </property>
    <widget class="QMenu" name="menuGame">
     <property name="title">
-     <string>Difficulty</string>
+     <string>难度</string>
     </property>
     <addaction name="actionBasic"/>
     <addaction name="actionMedium"/>
@@ -397,7 +391,7 @@ border-color: BLACK;</string>
    </widget>
    <widget class="QMenu" name="menutips">
     <property name="title">
-     <string>About</string>
+     <string>关于</string>
     </property>
     <addaction name="separator"/>
     <addaction name="separator"/>
@@ -410,17 +404,17 @@ border-color: BLACK;</string>
   </widget>
   <action name="actionBasic">
    <property name="text">
-    <string>basic</string>
+    <string>入门</string>
    </property>
   </action>
   <action name="actionMedium">
    <property name="text">
-    <string>medium</string>
+    <string>普通</string>
    </property>
   </action>
   <action name="actionHard">
    <property name="text">
-    <string>hard</string>
+    <string>困难</string>
    </property>
   </action>
   <action name="actioneff">
@@ -430,23 +424,23 @@ border-color: BLACK;</string>
   </action>
   <action name="actionIntro">
    <property name="text">
-    <string>How to play?</string>
+    <string>说明</string>
    </property>
   </action>
   <action name="actionVers">
    <property name="text">
-    <string>Verison</string>
+    <string>版本</string>
    </property>
   </action>
   <action name="actionGroup">
    <property name="text">
-    <string>Group</string>
+    <string>开发者</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="res.qrc"/>
+  <include location="../../res.qrc"/>
  </resources>
  <connections/>
 </ui>
