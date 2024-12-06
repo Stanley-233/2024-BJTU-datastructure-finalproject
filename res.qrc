@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/sound/pair.wav</file>
+        <file>res/sound/release.wav</file>
+        <file>res/sound/select.wav</file>
+        <file>res/image/1.png</file>
+        <file>res/image/2.png</file>
+        <file>res/image/3.png</file>
+        <file>res/image/4.png</file>
+        <file>res/image/5.png</file>
+        <file>res/image/6.png</file>
+        <file>res/image/7.png</file>
+        <file>res/image/8.png</file>
+        <file>res/image/9.png</file>
+        <file>res/image/10.png</file>
+        <file>res/image/11.png</file>
+        <file>res/image/12.png</file>
+        <file>res/image/13.png</file>
+        <file>res/image/14.png</file>
+        <file>res/image/15.png</file>
+        <file>res/image/16.png</file>
+        <file>res/image/17.png</file>
+        <file>res/image/18.png</file>
+        <file>res/image/19.png</file>
+        <file>res/image/20.png</file>
+        <file>res/dialog/gameover.png</file>
+        <file>res/dialog/victory.png</file>
+        <file>res/sound/lose.wav</file>
+        <file>res/sound/win.wav</file>
+        <file>res/image/close.png</file>
+        <file>res/image/open.png</file>
+        <file>res/image/loginPage.jpg</file>
+        <file>res/sound/tap.wav</file>
+        <file>res/sound/done.wav</file>
+    </qresource>
+</RCC>
