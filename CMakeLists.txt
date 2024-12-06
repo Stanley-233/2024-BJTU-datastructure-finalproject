@@ -15,9 +15,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Multimedia)
 set(PROJECT_SOURCES
         src/main.cpp
         src/ui/main_game_window.cpp
+        src/network/networkhandler.h
+        src/network/networkhandler.cpp
         res.qrc
-        src/game/gameuser.cpp
-        src/game/gameuser.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
