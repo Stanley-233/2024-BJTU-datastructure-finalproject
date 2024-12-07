@@ -2,12 +2,12 @@
 
 // TODO: Test login and register
 
-NetworkHandler::NetworkHandler(QObject *parent) 
+NetworkHandler::NetworkHandler(QObject *parent)
     : QObject(parent), networkManager(new QNetworkAccessManager(this)) {
     connect(networkManager, &QNetworkAccessManager::finished, this, &NetworkHandler::onNetworkReplay);
 }
 
-void NetworkHandler::login(const QString& username, const QString& password) const {
+void NetworkHandler::login(const QString &username, const QString &password) const {
     // TODO: Change it to deployment
     QNetworkRequest request(QUrl("http://127.0.0.1:5000/login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -18,11 +18,11 @@ void NetworkHandler::login(const QString& username, const QString& password) con
 
     QJsonDocument doc(json);
     QByteArray data = doc.toJson();
-    QNetworkReply* reply = networkManager->post(request, data);
+    QNetworkReply *reply = networkManager->post(request, data);
     reply->setProperty("requestType", "login");
 }
 
-void NetworkHandler::registerUser(const QString& username, const QString& password) const {
+void NetworkHandler::registerUser(const QString &username, const QString &password) const {
     // TODO: Change it to deployment
     QNetworkRequest request(QUrl("http://127.0.0.1:5000/register"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -33,11 +33,11 @@ void NetworkHandler::registerUser(const QString& username, const QString& passwo
 
     QJsonDocument doc(json);
     QByteArray data = doc.toJson();
-    QNetworkReply* reply = networkManager->post(request, data);
+    QNetworkReply *reply = networkManager->post(request, data);
     reply->setProperty("requestType", "register");
 }
 
-void NetworkHandler::onNetworkReplay(QNetworkReply* reply) {
+void NetworkHandler::onNetworkReplay(QNetworkReply *reply) {
     QString requestType = reply->property("requestType").toString();
     if (requestType == "login") {
         if (reply->error() == QNetworkReply::NoError) {
@@ -48,13 +48,13 @@ void NetworkHandler::onNetworkReplay(QNetworkReply* reply) {
             switch (statusCode) {
                 case 404:
                     emit noUser();
-                break;
+                    break;
                 case 403:
                     emit wrongPassword();
-                break;
+                    break;
                 default:
                     emit serverError();
-                break;
+                    break;
             }
         }
     } else if (requestType == "register") {
@@ -65,10 +65,10 @@ void NetworkHandler::onNetworkReplay(QNetworkReply* reply) {
             switch (statusCode) {
                 case 409:
                     emit alreadyRegistered();
-                break;
+                    break;
                 default:
                     emit serverError();
-                break;
+                    break;
             }
         }
     }

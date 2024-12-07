@@ -8,14 +8,15 @@
 #include <QMediaPlayer>
 
 namespace Ui {
-class MainGameWindow;
+    class MainGameWindow;
 }
 
-class MainGameWindow : public QMainWindow
-{
+class MainGameWindow : public QMainWindow {
     Q_OBJECT
+
 public:
     MainGameWindow(QWidget *parent = nullptr);
+
     ~MainGameWindow() override;
 
 private:
@@ -23,4 +24,3 @@ private:
 };
 
 #endif // MAIN_GAME_WINDOW_H
-
