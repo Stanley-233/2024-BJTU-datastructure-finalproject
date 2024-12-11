@@ -18,6 +18,8 @@ set(PROJECT_SOURCES
         src/ui/main_game_window.ui
         src/network/networkhandler.cpp
         res.qrc
+        src/ui/login_dialog.cpp
+        src/ui/login_dialog.ui
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

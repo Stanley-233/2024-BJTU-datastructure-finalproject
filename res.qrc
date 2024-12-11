@@ -1,9 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>res/sound/pair.wav</file>
-        <file>res/sound/release.wav</file>
-        <file>res/sound/select.wav</file>
-
         <file>res/image/1.png</file>
         <file>res/image/2.png</file>
         <file>res/image/3.png</file>
@@ -25,15 +21,14 @@
         <file>res/image/19.png</file>
         <file>res/image/20.png</file>
         <file>res/image/background.jpg</file>
+        <file>res/image/close.png</file>
+        <file>res/image/open.png</file>
 
         <file>res/dialog/gameover.png</file>
         <file>res/dialog/victory.png</file>
-        <file>res/sound/lose.wav</file>
-        <file>res/sound/win.wav</file>
-        <file>res/image/close.png</file>
-        <file>res/image/open.png</file>
-        <file>res/image/loginPage.jpg</file>
-        <file>res/sound/tap.wav</file>
-        <file>res/sound/done.wav</file>
+        <file>res/dialog/loginPage.jpg</file>
+
+        <file>res/sound/type.wav</file>
+        <file>res/sound/success.wav</file>
     </qresource>
 </RCC>

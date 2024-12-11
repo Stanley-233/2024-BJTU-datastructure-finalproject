@@ -16,7 +16,6 @@ class MainGameWindow : public QMainWindow {
 
 public:
     MainGameWindow(QWidget *parent = nullptr);
-
     ~MainGameWindow() override;
 
 private:

@@ -81,3 +81,5 @@ cmake-build-release/
 
 # Backend
 server/backend/.idea
+*.pptx
+doc/立项报告 - 巡旅联觉.pdf
