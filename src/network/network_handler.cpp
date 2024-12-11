@@ -4,10 +4,12 @@
 
 NetworkHandler::NetworkHandler(QObject *parent) :
     QObject(parent), networkManager(new QNetworkAccessManager(this)) {
-    connect(networkManager, &QNetworkAccessManager::finished, this, &NetworkHandler::onNetworkReplay);
+    connect(networkManager, &QNetworkAccessManager::finished, this,
+            &NetworkHandler::onNetworkReplay);
 }
 
-void NetworkHandler::login(const QString &username, const QString &password) const {
+void NetworkHandler::login(const QString &username,
+                           const QString &password) const {
     // TODO: Change it to deployment
     QNetworkRequest request(QUrl("http://127.0.0.1:5000/login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -22,7 +24,8 @@ void NetworkHandler::login(const QString &username, const QString &password) con
     reply->setProperty("requestType", "login");
 }
 
-void NetworkHandler::registerUser(const QString &username, const QString &password) const {
+void NetworkHandler::registerUser(const QString &username,
+                                  const QString &password) const {
     // TODO: Change it to deployment
     QNetworkRequest request(QUrl("http://127.0.0.1:5000/register"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -44,7 +47,8 @@ void NetworkHandler::onNetworkReplay(QNetworkReply *reply) {
             QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
             emit successfulLogin();
         } else {
-            const int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            const int statusCode = reply->attribute(
+                    QNetworkRequest::HttpStatusCodeAttribute).toInt();
             switch (statusCode) {
                 case 404:
                     emit noUser();
@@ -61,7 +65,8 @@ void NetworkHandler::onNetworkReplay(QNetworkReply *reply) {
         if (reply->error() == QNetworkReply::NoError) {
             emit successfulRegister();
         } else {
-            int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            int statusCode = reply->attribute(
+                    QNetworkRequest::HttpStatusCodeAttribute).toInt();
             switch (statusCode) {
                 case 409:
                     emit alreadyRegistered();

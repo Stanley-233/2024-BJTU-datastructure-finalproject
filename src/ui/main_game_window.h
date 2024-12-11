@@ -13,11 +13,11 @@ namespace Ui {
     class MainGameWindow;
 }
 
-class MainGameWindow : public QMainWindow {
+class MainGameWindow final : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainGameWindow(QWidget *parent = nullptr);
+    explicit MainGameWindow(QWidget *parent = nullptr);
 
     ~MainGameWindow() override;
 

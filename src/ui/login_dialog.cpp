@@ -39,7 +39,7 @@ void LoginDialog::on_loginBtn_clicked() {
     QString name = ui->nameEL->text();
     QString password = ui->passwordEL->text();
     if (!name.isEmpty() && !password.isEmpty()) {
-        emit sendingUserMsg(1, name, password);
+        emit sendingUserMsg(true, name, password);
     } else {
         QMessageBox::warning(this, "警告", "请检查输入！");
     }
@@ -50,7 +50,7 @@ void LoginDialog::on_registerBtn_clicked() {
     QString name = ui->nameEL->text();
     QString password = ui->passwordEL->text();
     if (!name.isEmpty() && !password.isEmpty()) {
-        emit sendingUserMsg(0, name, password);
+        emit sendingUserMsg(false, name, password);
     } else {
         QMessageBox::warning(this, "警告", "请检查输入！");
     }
