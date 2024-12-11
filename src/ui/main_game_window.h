@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QTimer>
 #include <QMediaPlayer>
+#include <QAudioOutput>
 
 #include "../network/network_handler.h"
 
@@ -24,12 +25,16 @@ public:
 private slots:
     void onLoginMessage(bool mode, QString name, QString password);
 
+    void on_muteBtn_clicked();
+
 signals:
     void login_dialog_message(bool isSuccess, bool mode, QString info);
 
 private:
     Ui::MainGameWindow *ui;
     NetworkHandler networkHandler;
+    QAudioOutput audioOutput;
+    QMediaPlayer player;
 };
 
 #endif // MAIN_GAME_WINDOW_H

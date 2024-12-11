@@ -1,12 +1,14 @@
 ﻿#include "main_game_window.h"
-
+#
 #include "login_dialog.h"
 #include "ui_main_game_window.h"
 
 MainGameWindow::MainGameWindow(QWidget *parent) :
     QMainWindow(parent)
     , ui(new Ui::MainGameWindow)
-    , networkHandler(NetworkHandler(this)) {
+    , networkHandler(NetworkHandler(this))
+    , player(QMediaPlayer(this))
+    , audioOutput(QAudioOutput(this)) {
     ui->setupUi(this);
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
 
@@ -34,6 +36,12 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     connect(this, &MainGameWindow::login_dialog_message, &lg, &LoginDialog::on_DialogState);
     lg.exec();
 
+    // BGM
+    player.setAudioOutput(&audioOutput);
+    player.setSource(QUrl("qrc:/res/sound/bgm.mp3"));
+    audioOutput.setVolume(100);
+    player.setLoops(-1); // 无限循环
+    player.play();
 }
 
 MainGameWindow::~MainGameWindow() {
@@ -46,5 +54,17 @@ void MainGameWindow::onLoginMessage(bool mode, QString name, QString password) {
         networkHandler.login(name, password);
     } else {
         networkHandler.registerUser(name, password);
+    }
+}
+
+void MainGameWindow::on_muteBtn_clicked() {
+    if (player.isPlaying()) {
+        // qDebug() << "Mute";
+        player.pause();
+        ui->muteBtn->setIcon(QIcon(":/res/image/close.png"));
+    } else {
+        // qDebug() << "Out of mute";
+        player.play();
+        ui->muteBtn->setIcon(QIcon(":/res/image/open.png"));
     }
 }

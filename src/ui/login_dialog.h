@@ -34,7 +34,7 @@ private slots:
     void on_passwordEL_textEdited(const QString &arg1) const;
 
 public slots:
-    void on_DialogState(bool isSuccess, bool type, const QString& info);
+    void on_DialogState(bool isSuccess, bool type, const QString &info);
 
 signals:
     void sendingUserMsg(bool mode, QString name, QString password);

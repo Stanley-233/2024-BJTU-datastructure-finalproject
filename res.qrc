@@ -28,6 +28,7 @@
         <file>res/dialog/victory.png</file>
         <file>res/dialog/loginPage.jpg</file>
 
+        <file>res/sound/bgm.mp3</file>
         <file>res/sound/type.wav</file>
         <file>res/sound/success.wav</file>
     </qresource>
