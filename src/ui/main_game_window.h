@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QMediaPlayer>
 
+#include "../network/network_handler.h"
+
 namespace Ui {
     class MainGameWindow;
 }
@@ -16,11 +18,22 @@ class MainGameWindow : public QMainWindow {
 
 public:
     MainGameWindow(QWidget *parent = nullptr);
-
     ~MainGameWindow() override;
+
+private slots:
+    void onLoginMessage(bool mode, QString name, QString password);
+    void onWrongPassword();
+    void onNoUser();
+    void onServerError();
+    void onSuccessfulRegister();
+    void onAlreadyRegistered();
+
+signals:
+    void login_dialog_message(bool isSuccess, bool mode, QString info);
 
 private:
     Ui::MainGameWindow *ui;
+    NetworkHandler networkHandler;
 };
 
 #endif // MAIN_GAME_WINDOW_H

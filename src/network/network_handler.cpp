@@ -1,4 +1,4 @@
-#include "NetworkHandler.h"
+#include "network_handler.h"
 
 // TODO: Test login and register
 
@@ -13,7 +13,7 @@ void NetworkHandler::login(const QString &username, const QString &password) con
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QJsonObject json;
-    json["name"] = username;
+    json["username"] = username;
     json["password"] = password;
 
     QJsonDocument doc(json);

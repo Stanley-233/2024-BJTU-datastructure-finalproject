@@ -2,11 +2,12 @@
 #define NETWORKHANDLER_H
 
 #include <QString>
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QJsonObject>
 
-class NetworkHandler : public QObject {
+class NetworkHandler final : public QObject {
     Q_OBJECT
 
 public:

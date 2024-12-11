@@ -9,15 +9,22 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(QT_ASSUME_STDERR_HAS_CONSOLE 1)
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Sql Multimedia)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Sql Multimedia)
 
 set(PROJECT_SOURCES
+        res.qrc
         src/main.cpp
+        src/ui/main_game_window.h
         src/ui/main_game_window.cpp
         src/ui/main_game_window.ui
-        src/network/networkhandler.cpp
-        res.qrc
+        src/network/network_handler.h
+        src/network/network_handler.cpp
+        src/ui/login_dialog.h
+        src/ui/login_dialog.cpp
+        src/ui/login_dialog.ui
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

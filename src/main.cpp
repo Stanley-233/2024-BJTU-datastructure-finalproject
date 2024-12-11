@@ -1,6 +1,4 @@
-﻿#include <iostream>
-
-#include "ui/main_game_window.h"
+﻿#include "ui/main_game_window.h"
 
 #include <QApplication>
 #include <QSoundEffect>
