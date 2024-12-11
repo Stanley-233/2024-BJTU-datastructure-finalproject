@@ -56,7 +56,7 @@ void LoginDialog::on_registerBtn_clicked() {
     }
 }
 
-void LoginDialog::on_DialogState(bool isSuccess, bool type, const QString& info) {
+void LoginDialog::on_DialogState(bool isSuccess, bool type, const QString &info) {
     if (type) {
         if (isSuccess) {
             done->play();
@@ -85,4 +85,3 @@ void LoginDialog::on_nameEL_textEdited(const QString &arg1) const {
 void LoginDialog::on_passwordEL_textEdited(const QString &arg1) const {
     tap->play();
 }
-

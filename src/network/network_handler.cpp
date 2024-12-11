@@ -2,8 +2,8 @@
 
 // TODO: Test login and register
 
-NetworkHandler::NetworkHandler(QObject *parent)
-    : QObject(parent), networkManager(new QNetworkAccessManager(this)) {
+NetworkHandler::NetworkHandler(QObject *parent) :
+    QObject(parent), networkManager(new QNetworkAccessManager(this)) {
     connect(networkManager, &QNetworkAccessManager::finished, this, &NetworkHandler::onNetworkReplay);
 }
 

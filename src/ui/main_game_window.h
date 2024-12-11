@@ -18,15 +18,11 @@ class MainGameWindow : public QMainWindow {
 
 public:
     MainGameWindow(QWidget *parent = nullptr);
+
     ~MainGameWindow() override;
 
 private slots:
     void onLoginMessage(bool mode, QString name, QString password);
-    void onWrongPassword();
-    void onNoUser();
-    void onServerError();
-    void onSuccessfulRegister();
-    void onAlreadyRegistered();
 
 signals:
     void login_dialog_message(bool isSuccess, bool mode, QString info);
