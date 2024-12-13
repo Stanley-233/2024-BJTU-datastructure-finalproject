@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
         src/ui/login_dialog.cpp
         src/ui/login_dialog.ui
         src/game/game_model.h
+        src/game/game_model.cpp
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
