@@ -31,7 +31,7 @@ enum GameLevel
     HARD
 };
 
-// 用于绘制线段的连接点(其实应该统一用这个结构体的，代码有待优化)
+// 用于绘制线段的连接点
 struct PaintPoint
 {
     PaintPoint(int _x, int _y) : x(_x), y (_y) {}
@@ -51,8 +51,8 @@ public:
     void startGame(GameLevel level);
     int *getGameMap();    // 获得地图
 
-           //未使用
-    GameStatus checkGameStatus(); // 判断获得游戏状态，是否输赢
+           //  //未使用
+           // GameStatus checkGameStatus(); // 判断获得游戏状态，是否输赢
 
     bool linkTwoTiles(int srcX, int srcY, int dstX,int dstY); // 连接起点和终点方块，连接是否成功
     bool isFrozen(); // 判断是否已经成为了僵局
