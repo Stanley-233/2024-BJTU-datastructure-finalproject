@@ -9,11 +9,12 @@ NetworkHandler::NetworkHandler(QObject *parent) :
 }
 
 void NetworkHandler::login(const QString &username,
-                           const QString &password) const {
+                           const QString &password) {
     // TODO: Change it to deployment
     QNetworkRequest request(QUrl("http://127.0.0.1:5000/login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
+    this->username = username;
     QJsonObject json;
     json["username"] = username;
     json["password"] = password;

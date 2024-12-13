@@ -13,7 +13,7 @@ class NetworkHandler final : public QObject {
 public:
     explicit NetworkHandler(QObject *parent = nullptr);
 
-    void login(const QString &username, const QString &password) const;
+    void login(const QString &username, const QString &password);
 
     void registerUser(const QString &username, const QString &password) const;
 
@@ -36,6 +36,7 @@ private slots:
 private:
     QString apiUrl = "http://127.0.0.1:5000/";
     QNetworkAccessManager *networkManager;
+    QString username = QString("");
 };
 
 #endif // NETWORKHANDLER_H

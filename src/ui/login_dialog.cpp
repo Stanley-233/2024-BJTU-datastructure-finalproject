@@ -34,7 +34,6 @@ void LoginDialog::paintEvent(QPaintEvent *event) {
     painter.drawPixmap(rect(), QPixmap(":/res/dialog/loginPage.jpg"), QRect());
 }
 
-
 void LoginDialog::on_loginBtn_clicked() {
     QString name = ui->nameEL->text();
     QString password = ui->passwordEL->text();

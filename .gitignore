@@ -83,3 +83,4 @@ cmake-build-release/
 server/backend/.idea
 *.pptx
 doc/立项报告 - 巡旅联觉.pdf
+server/backend/game.db
