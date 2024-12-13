@@ -12,29 +12,29 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
 
-    // 登录
-    connect(&networkHandler, &NetworkHandler::successfulLogin, this, [this] {
-        emit login_dialog_message(true, true, "登录成功！");
-    });
-    connect(&networkHandler, &NetworkHandler::wrongPassword, this, [this] {
-        emit login_dialog_message(false, true, "登陆失败：密码错误！");
-    });
-    connect(&networkHandler, &NetworkHandler::noUser, this, [this] {
-        emit login_dialog_message(false, true, "登陆失败：用户未注册！");
-    });
-    connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
-        emit login_dialog_message(false, true, "登陆失败：服务器错误！");
-    });
-    connect(&networkHandler, &NetworkHandler::successfulRegister, this, [this] {
-        emit login_dialog_message(true, false, "注册成功！");
-    });
-    connect(&networkHandler, &NetworkHandler::alreadyRegistered, this, [this] {
-        emit login_dialog_message(false, false, "注册失败：已存在用户！");;
-    });
-    LoginDialog lg(this);
-    connect(&lg, &LoginDialog::sendingUserMsg, this, &MainGameWindow::onLoginMessage);
-    connect(this, &MainGameWindow::login_dialog_message, &lg, &LoginDialog::on_DialogState);
-    lg.exec();
+    // // 登录
+    // connect(&networkHandler, &NetworkHandler::successfulLogin, this, [this] {
+    //     emit login_dialog_message(true, true, "登录成功！");
+    // });
+    // connect(&networkHandler, &NetworkHandler::wrongPassword, this, [this] {
+    //     emit login_dialog_message(false, true, "登陆失败：密码错误！");
+    // });
+    // connect(&networkHandler, &NetworkHandler::noUser, this, [this] {
+    //     emit login_dialog_message(false, true, "登陆失败：用户未注册！");
+    // });
+    // connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
+    //     emit login_dialog_message(false, true, "登陆失败：服务器错误！");
+    // });
+    // connect(&networkHandler, &NetworkHandler::successfulRegister, this, [this] {
+    //     emit login_dialog_message(true, false, "注册成功！");
+    // });
+    // connect(&networkHandler, &NetworkHandler::alreadyRegistered, this, [this] {
+    //     emit login_dialog_message(false, false, "注册失败：已存在用户！");;
+    // });
+    // LoginDialog lg(this);
+    // connect(&lg, &LoginDialog::sendingUserMsg, this, &MainGameWindow::onLoginMessage);
+    // connect(this, &MainGameWindow::login_dialog_message, &lg, &LoginDialog::on_DialogState);
+    // lg.exec();
 
     // BGM
     player.setAudioOutput(&audioOutput);
