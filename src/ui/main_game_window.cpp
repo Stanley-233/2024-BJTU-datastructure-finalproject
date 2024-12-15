@@ -1,7 +1,6 @@
 ﻿#include "main_game_window.h"
-#
+#include "over_dialog.h"
 #include <QPainter>
-
 #include "login_dialog.h"
 #include "ui_main_game_window.h"
 
@@ -153,7 +152,6 @@ void MainGameWindow::init_imageBtn(bool mode) {
     }
 }
 
-
 void MainGameWindow::onIconButtonPressed() {
     // 如果当前有方块在连接，不能点击方块
     if (isLinking) {
@@ -190,8 +188,7 @@ void MainGameWindow::onIconButtonPressed() {
                 game->setScore(game->getScore() + 3);
                 ui->scoreLab->setText(QString::number(game->getScore()));
                 isReallylinked = false;
-                // TODO:检查是否胜利
-                // if (game->isWin()) gameOver(1);
+                if (game->isWin()) gameOver(1);
             } else {
                 // 播放音效
                 // QSound::play(":/res/sound/release.wav");
@@ -228,8 +225,7 @@ void MainGameWindow::gameTimerEvent() {
     // 进度条计时效果
     if (ui->timeBar->value() <= 0) {
         gameTimer->stop();
-        // TODO: Game Over
-        // gameOver(false);
+        gameOver(false);
     } else {
         ui->timeBar->setValue(ui->timeBar->value() - 10 * kGameTimerInterval);
     }
@@ -251,7 +247,6 @@ void MainGameWindow::on_pauseBtn_clicked() {
         ui->pauseBtn->setText("暂停");
     }
 }
-
 
 void MainGameWindow::on_resetBtn_clicked() {
     //如果有解则扣分
@@ -327,4 +322,54 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
         return true;
     }
     return QMainWindow::eventFilter(watched, event);
+}
+
+void MainGameWindow::on_again(GameLevel mode)
+{
+    gameTimer->disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(gameTimerEvent()));
+    // 先析构之前的
+    if (game)
+    {
+        delete game;
+        for (int i = 0;i < MAX_ROW * MAX_COL; i++)
+        {
+            if (imageButton[i])
+                delete imageButton[i];
+        }
+    }
+
+    //Todo: 停止音乐
+    // 重绘
+    update();
+    initGame(mode);
+}
+
+void MainGameWindow::gameOver(bool mode)
+{
+    //停止进度条
+    gameTimer->stop();
+    //Todo: 记录游戏数据
+    QString l;
+    switch(curLevel){
+        case BASIC:
+            l = "basic";
+            break;
+        case MEDIUM:
+            l = "medium";
+            break;
+        case HARD:
+            l = "hard";
+    }
+
+    //创建界面对象
+    overDialog dia(mode,game->getScore(),this);
+    connect(&dia,SIGNAL(again(GameLevel)),this,SLOT(on_again(GameLevel)));
+    connect(&dia,SIGNAL(exit()),this,SLOT(on_exit()));
+    dia.exec();
+}
+
+void MainGameWindow::on_exit()
+{
+    //Todo: 关闭数据库
+    exit(0);
 }

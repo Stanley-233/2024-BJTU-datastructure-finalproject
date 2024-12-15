@@ -56,7 +56,8 @@ private slots:
     void gameTimerEvent();
     void on_pauseBtn_clicked();
     void on_resetBtn_clicked();
-
+    void on_again(GameLevel mode);
+    void on_exit();
 signals:
     void login_dialog_message(bool isSuccess, bool mode, QString info);
 
@@ -79,6 +80,7 @@ private:
     inline void allFunBtnEnable(bool);
     inline void allBlocksEnable(bool state);
     void init_imageBtn(bool mode);
+    void gameOver(bool mode);
 };
 
 #endif // MAIN_GAME_WINDOW_H
