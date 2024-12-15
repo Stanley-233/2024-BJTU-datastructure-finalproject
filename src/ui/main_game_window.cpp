@@ -16,6 +16,7 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     curIcon = nullptr;
 
     ui->setupUi(this);
+    ui->centralWidget->installEventFilter(this);
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
 
     // // 登录
@@ -261,4 +262,69 @@ void MainGameWindow::on_resetBtn_clicked() {
     game->reset();
     // 添加button
     init_imageBtn(false);
+}
+
+bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
+    // 重绘时会调用，可以手动调用
+    if (event->type() == QEvent::Paint) {
+        QPainter painter(ui->centralWidget);
+        painter.drawPixmap(rect(), QPixmap(":/res/image/background.jpg"), QRect());
+        QPen pen;
+        // Random Color
+        QColor color(rand() % 256, rand() % 256, rand() % 256);
+        pen.setColor(color);
+        pen.setWidth(5);
+        painter.setPen(pen);
+        // 连接各点画线
+        for (int i = 0; i < int(game->paintPoints.size()) - 1; i++) {
+            PaintPoint p1 = game->paintPoints[i];
+            PaintPoint p2 = game->paintPoints[i + 1];
+            // 拿到各button的坐标,注意边缘点坐标
+            QPoint btn_pos1;
+            QPoint btn_pos2;
+            // p1
+            // 边界情况会导致某点的坐标是-1或者最大值，不可通过数组的线性查找找到对应点，需进行冗余计算
+            if (p1.x == -1) {
+                btn_pos1 = imageButton[p1.y * MAX_COL + 0]->pos();
+                btn_pos1 = QPoint(btn_pos1.x() - kIconSize, btn_pos1.y());
+            } else if (p1.x == MAX_COL) {
+                btn_pos1 = imageButton[p1.y * MAX_COL + MAX_COL - 1]->pos();
+                btn_pos1 = QPoint(btn_pos1.x() + kIconSize, btn_pos1.y());
+            } else if (p1.y == -1) {
+                btn_pos1 = imageButton[0 + p1.x]->pos();
+                btn_pos1 = QPoint(btn_pos1.x(), btn_pos1.y() - kIconSize);
+            } else if (p1.y == MAX_ROW) {
+                btn_pos1 = imageButton[(MAX_ROW - 1) * MAX_COL + p1.x]->pos();
+                btn_pos1 = QPoint(btn_pos1.x(), btn_pos1.y() + kIconSize);
+            } else
+                btn_pos1 = imageButton[p1.y * MAX_COL + p1.x]->pos();
+            // p2
+            if (p2.x == -1) {
+                btn_pos2 = imageButton[p2.y * MAX_COL + 0]->pos();
+                btn_pos2 = QPoint(btn_pos2.x() - kIconSize, btn_pos2.y());
+            } else if (p2.x == MAX_COL) {
+                btn_pos2 = imageButton[p2.y * MAX_COL + MAX_COL - 1]->pos();
+                btn_pos2 = QPoint(btn_pos2.x() + kIconSize, btn_pos2.y());
+            } else if (p2.y == -1) {
+                btn_pos2 = imageButton[0 + p2.x]->pos();
+                btn_pos2 = QPoint(btn_pos2.x(), btn_pos2.y() - kIconSize);
+            } else if (p2.y == MAX_ROW) {
+                btn_pos2 = imageButton[(MAX_ROW - 1) * MAX_COL + p2.x]->pos();
+                btn_pos2 = QPoint(btn_pos2.x(), btn_pos2.y() + kIconSize);
+            } else
+                btn_pos2 = imageButton[p2.y * MAX_COL + p2.x]->pos();
+            // 中心点
+            QPoint pos1(btn_pos1.x() + kIconSize / 2, btn_pos1.y() - kIconSize / 2);
+            QPoint pos2(btn_pos2.x() + kIconSize / 2, btn_pos2.y() - kIconSize / 2);
+            painter.drawLine(pos1, pos2);
+        }
+        //如果僵局则重绘
+        if (game->isFrozen()) {
+            game->reset();
+            // 添加button
+            init_imageBtn(false);
+        }
+        return true;
+    }
+    return QMainWindow::eventFilter(watched, event);
 }

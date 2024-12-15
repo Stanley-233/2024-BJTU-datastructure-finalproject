@@ -45,8 +45,8 @@ class MainGameWindow final : public QMainWindow {
 
 public:
     explicit MainGameWindow(QWidget *parent = nullptr);
-
     ~MainGameWindow() override;
+    bool eventFilter(QObject *watched, QEvent *event) override; // 事件过滤
 
 private slots:
     void onLoginMessage(bool mode, QString name, QString password);
