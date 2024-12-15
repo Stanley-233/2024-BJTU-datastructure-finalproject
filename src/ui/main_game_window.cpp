@@ -1,5 +1,7 @@
 ﻿#include "main_game_window.h"
 #
+#include <QPainter>
+
 #include "login_dialog.h"
 #include "ui_main_game_window.h"
 
@@ -9,6 +11,10 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     , networkHandler(NetworkHandler(this))
     , player(QMediaPlayer(this))
     , audioOutput(QAudioOutput(this)) {
+
+    preIcon = nullptr;
+    curIcon = nullptr;
+
     ui->setupUi(this);
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
 
@@ -109,6 +115,12 @@ void MainGameWindow::allFunBtnEnable(const bool state) {
     ui->robot_btn->setEnabled(state);
     ui->resetBtn->setEnabled(state);
     ui->pauseBtn->setEnabled(state);
+}
+
+void MainGameWindow::allBlocksEnable(bool state) {
+    for (const auto &i: imageButton) {
+        i->setEnabled(state);
+    }
 }
 
 void MainGameWindow::init_imageBtn(bool mode) {
@@ -220,4 +232,33 @@ void MainGameWindow::gameTimerEvent() {
     } else {
         ui->timeBar->setValue(ui->timeBar->value() - 10 * kGameTimerInterval);
     }
+}
+
+void MainGameWindow::on_pauseBtn_clicked() {
+    if (game->gameStatus == PLAYING) {
+        game->gameStatus = PAUSE;
+        gameTimer->stop();
+        allBlocksEnable(false);
+        allFunBtnEnable(false);
+        ui->pauseBtn->setEnabled(true);
+        ui->pauseBtn->setText("继续");
+    } else {
+        game->gameStatus = PLAYING;
+        gameTimer->start(kLinkTimerDelay);
+        allBlocksEnable(true);
+        allFunBtnEnable(true);
+        ui->pauseBtn->setText("暂停");
+    }
+}
+
+
+void MainGameWindow::on_resetBtn_clicked() {
+    //如果有解则扣分
+    if (!game->isFrozen()) {
+        game->setScore(game->getScore() - 6);
+        ui->scoreLab->setText(QString::number(game->getScore()));
+    }
+    game->reset();
+    // 添加button
+    init_imageBtn(false);
 }

@@ -54,6 +54,8 @@ private slots:
     void onIconButtonPressed();
     void handleLinkEffect();
     void gameTimerEvent();
+    void on_pauseBtn_clicked();
+    void on_resetBtn_clicked();
 
 signals:
     void login_dialog_message(bool isSuccess, bool mode, QString info);
@@ -75,6 +77,7 @@ private:
 
     void initGame(GameLevel);
     inline void allFunBtnEnable(bool);
+    inline void allBlocksEnable(bool state);
     void init_imageBtn(bool mode);
 };
 
