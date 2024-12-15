@@ -25,6 +25,9 @@ set(PROJECT_SOURCES
         src/ui/login_dialog.h
         src/ui/login_dialog.cpp
         src/ui/login_dialog.ui
+        src/ui/over_dialog.cpp
+        src/ui/over_dialog.h
+        src/ui/over_dialog.ui
         src/game/game_model.h
         src/game/game_model.cpp
 )
