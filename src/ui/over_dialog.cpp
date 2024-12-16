@@ -24,7 +24,6 @@ overDialog::~overDialog() {
     delete ui;
 }
 
-
 void overDialog::on_exitBtn_clicked() {
     emit exit();
     this->hide();

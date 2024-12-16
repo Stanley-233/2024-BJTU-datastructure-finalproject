@@ -1,4 +1,7 @@
 ﻿#include "main_game_window.h"
+
+#include <QMessageBox>
+
 #include "over_dialog.h"
 #include <QPainter>
 #include "login_dialog.h"
@@ -17,6 +20,15 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->centralWidget->installEventFilter(this);
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
+
+    // Menu
+    connect(ui->actionBasic, SIGNAL(triggered(bool)), this, SLOT(createGameWithLevel()));
+    connect(ui->actionMedium, SIGNAL(triggered(bool)), this, SLOT(createGameWithLevel()));
+    connect(ui->actionHard, SIGNAL(triggered(bool)), this, SLOT(createGameWithLevel()));
+
+    connect(ui->actionIntro, SIGNAL(triggered(bool)), this, SLOT(informationDisplay()));
+    connect(ui->actionVers, SIGNAL(triggered(bool)), this, SLOT(informationDisplay()));
+    connect(ui->actionGroup, SIGNAL(triggered(bool)), this, SLOT(informationDisplay()));
 
     // // 登录
     // connect(&networkHandler, &NetworkHandler::successfulLogin, this, [this] {
@@ -189,7 +201,7 @@ void MainGameWindow::onIconButtonPressed() {
                 ui->scoreLab->setText(QString::number(game->getScore()));
                 isReallylinked = false;
                 if (game->isWin())
-                    gameOver(1);
+                    gameOver(true);
             } else {
                 // 播放音效
                 // QSound::play(":/res/sound/release.wav");
@@ -272,7 +284,7 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
         pen.setWidth(5);
         painter.setPen(pen);
         // 连接各点画线
-        for (int i = 0; i < int(game->paintPoints.size()) - 1; i++) {
+        for (int i = 0; i < static_cast<int>(game->paintPoints.size()) - 1; i++) {
             PaintPoint p1 = game->paintPoints[i];
             PaintPoint p2 = game->paintPoints[i + 1];
             // 拿到各button的坐标,注意边缘点坐标
@@ -346,18 +358,17 @@ void MainGameWindow::gameOver(bool mode) {
     //停止进度条
     gameTimer->stop();
     //Todo: 记录游戏数据
-    QString l;
+    QString level;
     switch (curLevel) {
         case BASIC:
-            l = "basic";
+            level = "入门";
             break;
         case MEDIUM:
-            l = "medium";
+            level = "普通";
             break;
         case HARD:
-            l = "hard";
+            level = "困难";
     }
-
     //创建界面对象
     overDialog dia(mode, game->getScore(), this);
     connect(&dia,SIGNAL(again(GameLevel)), this,SLOT(on_again(GameLevel)));
@@ -368,4 +379,37 @@ void MainGameWindow::gameOver(bool mode) {
 void MainGameWindow::on_exit() {
     //Todo: 关闭数据库
     exit(0);
+}
+
+void MainGameWindow::informationDisplay() {
+    const auto *actionSender = dynamic_cast<QAction *>(sender());
+    if (actionSender == ui->actionIntro) {
+        QMessageBox::information(this, "简介", "连连看");
+    } else if (actionSender == ui->actionGroup) {
+        QMessageBox::information(this, "小组成员",
+                                 "54shitaimzf Billybilly233\n"
+                                 "lalalangren Stanley-233(组长)\n"
+                                 "(按字典序排序)");
+    }
+}
+
+void MainGameWindow::createGameWithLevel() {
+    disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
+    // 先析构之前的
+    if (game) {
+        delete game;
+        for (const auto &i: imageButton) {
+            delete i;
+        }
+    }
+    // 重绘
+    update();
+    auto *actionSender = dynamic_cast<QAction *>(sender());
+    if (actionSender == ui->actionBasic) {
+        initGame(BASIC);
+    } else if (actionSender == ui->actionMedium) {
+        initGame(MEDIUM);
+    } else if (actionSender == ui->actionHard) {
+        initGame(HARD);
+    }
 }

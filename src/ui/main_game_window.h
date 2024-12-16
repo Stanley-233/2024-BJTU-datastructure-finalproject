@@ -58,6 +58,8 @@ private slots:
     void on_resetBtn_clicked();
     void on_again(GameLevel mode);
     void on_exit();
+    void informationDisplay();
+    void createGameWithLevel();
 signals:
     void login_dialog_message(bool isSuccess, bool mode, QString info);
 
