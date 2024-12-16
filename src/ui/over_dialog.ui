@@ -29,7 +29,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="res.qrc">:/res/dialog/victory.png</pixmap>
+    <pixmap resource="../../res.qrc">:/res/dialog/victory.png</pixmap>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -43,12 +43,16 @@
    </property>
    <property name="font">
     <font>
-     <family>Wide Latin</family>
+     <family>思源宋体 CN</family>
      <pointsize>24</pointsize>
+     <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>Score</string>
+    <string>分数</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="score">
@@ -62,6 +66,7 @@
    </property>
    <property name="font">
     <font>
+     <family>Microsoft YaHei</family>
      <pointsize>16</pointsize>
     </font>
    </property>
@@ -69,7 +74,7 @@
     <string>0</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="exitBtn">
@@ -83,13 +88,13 @@
    </property>
    <property name="font">
     <font>
-     <family>Rockwell Extra Bold</family>
+     <family>思源宋体 CN</family>
      <pointsize>14</pointsize>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>exit</string>
+    <string>退出</string>
    </property>
   </widget>
   <widget class="QPushButton" name="hardBtn">
@@ -103,13 +108,13 @@
    </property>
    <property name="font">
     <font>
-     <family>Rockwell Extra Bold</family>
+     <family>思源宋体 CN</family>
      <pointsize>14</pointsize>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>hard</string>
+    <string>困难</string>
    </property>
   </widget>
   <widget class="QPushButton" name="basicBtn">
@@ -123,13 +128,13 @@
    </property>
    <property name="font">
     <font>
-     <family>Rockwell Extra Bold</family>
+     <family>思源宋体 CN</family>
      <pointsize>14</pointsize>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>basic</string>
+    <string>入门</string>
    </property>
   </widget>
   <widget class="QPushButton" name="mediumBtn">
@@ -143,17 +148,18 @@
    </property>
    <property name="font">
     <font>
-     <family>Rockwell Extra Bold</family>
+     <family>思源宋体 CN</family>
      <pointsize>14</pointsize>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>medium</string>
+    <string>普通</string>
    </property>
   </widget>
  </widget>
  <resources>
+  <include location="../../res.qrc"/>
   <include location="res.qrc"/>
  </resources>
  <connections/>

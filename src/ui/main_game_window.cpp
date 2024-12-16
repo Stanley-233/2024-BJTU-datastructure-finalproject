@@ -188,7 +188,8 @@ void MainGameWindow::onIconButtonPressed() {
                 game->setScore(game->getScore() + 3);
                 ui->scoreLab->setText(QString::number(game->getScore()));
                 isReallylinked = false;
-                if (game->isWin()) gameOver(1);
+                if (game->isWin())
+                    gameOver(1);
             } else {
                 // 播放音效
                 // QSound::play(":/res/sound/release.wav");
@@ -324,15 +325,12 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
     return QMainWindow::eventFilter(watched, event);
 }
 
-void MainGameWindow::on_again(GameLevel mode)
-{
+void MainGameWindow::on_again(GameLevel mode) {
     gameTimer->disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(gameTimerEvent()));
     // 先析构之前的
-    if (game)
-    {
+    if (game) {
         delete game;
-        for (int i = 0;i < MAX_ROW * MAX_COL; i++)
-        {
+        for (int i = 0; i < MAX_ROW * MAX_COL; i++) {
             if (imageButton[i])
                 delete imageButton[i];
         }
@@ -344,13 +342,12 @@ void MainGameWindow::on_again(GameLevel mode)
     initGame(mode);
 }
 
-void MainGameWindow::gameOver(bool mode)
-{
+void MainGameWindow::gameOver(bool mode) {
     //停止进度条
     gameTimer->stop();
     //Todo: 记录游戏数据
     QString l;
-    switch(curLevel){
+    switch (curLevel) {
         case BASIC:
             l = "basic";
             break;
@@ -362,14 +359,13 @@ void MainGameWindow::gameOver(bool mode)
     }
 
     //创建界面对象
-    overDialog dia(mode,game->getScore(),this);
-    connect(&dia,SIGNAL(again(GameLevel)),this,SLOT(on_again(GameLevel)));
-    connect(&dia,SIGNAL(exit()),this,SLOT(on_exit()));
+    overDialog dia(mode, game->getScore(), this);
+    connect(&dia,SIGNAL(again(GameLevel)), this,SLOT(on_again(GameLevel)));
+    connect(&dia,SIGNAL(exit()), this,SLOT(on_exit()));
     dia.exec();
 }
 
-void MainGameWindow::on_exit()
-{
+void MainGameWindow::on_exit() {
     //Todo: 关闭数据库
     exit(0);
 }
