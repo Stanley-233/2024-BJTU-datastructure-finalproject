@@ -14,9 +14,9 @@ class overDialog : public QDialog
 
 public:
     overDialog(bool mode,int score,QWidget *parent = nullptr);
-    ~overDialog();
+    ~overDialog() override;
 
-    void closeEvent(QCloseEvent *e);
+    void closeEvent(QCloseEvent *e) override;
 
 private slots:
     void on_exitBtn_clicked();

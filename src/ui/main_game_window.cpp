@@ -119,7 +119,7 @@ void MainGameWindow::initGame(GameLevel level) {
     // 连接状态值
     preIcon = nullptr;
     isLinking = false;
-    isReallylinked = false;
+    isReallyLinked = false;
 }
 
 void MainGameWindow::allFunBtnEnable(const bool state) {
@@ -198,7 +198,7 @@ void MainGameWindow::onIconButtonPressed() {
                 //每次消除一对分数加三
                 game->setScore(game->getScore() + 3);
                 ui->scoreLab->setText(QString::number(game->getScore()));
-                isReallylinked = false;
+                isReallyLinked = false;
                 if (game->isWin())
                     gameOver(true);
             } else {
@@ -385,8 +385,8 @@ void MainGameWindow::informationDisplay() {
         QMessageBox::information(this, "简介", "巡旅联觉 - Traveller's Linkage");
     } else if (actionSender == ui->actionGroup) {
         QMessageBox::information(this, "小组成员",
-                                 "54shitaimzf Billybilly233\n"
-                                 "lalalangren Stanley-233(组长)\n"
+                                 "54shitaimzf      Billybilly233\n"
+                                 "lalalangren      Stanley-233(组长)\n"
                                  "(按字典序排序)");
     }
 }

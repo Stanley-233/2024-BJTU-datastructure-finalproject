@@ -1,10 +1,9 @@
-#include <cstring>
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
 #include "game_model.h"
-using namespace std;
 
+using namespace std;
 
 // 游戏逻辑模型，与界面分离
 GameModel::GameModel() :
@@ -71,8 +70,7 @@ void GameModel::startGame() {
     startGame(gameLevel);
 }
 
-int *GameModel::getGameMap() {
-
+int *GameModel::getGameMap() const {
     return gameMap;
 }
 
@@ -117,19 +115,19 @@ bool GameModel::isWin() {
     return true;
 }
 
-int *GameModel::getHint() {
+int *GameModel::getHint() const {
     return hintArray;
 }
 
-int GameModel::getScore() {
+int GameModel::getScore() const {
     return score;
 }
 
-void GameModel::setScore(int score) {
+void GameModel::setScore(const int score) {
     this->score = score;
 }
 
-int GameModel::getTimes() {
+int GameModel::getTimes() const {
     return times;
 }
 
@@ -137,7 +135,7 @@ void GameModel::setTimes(int times) {
     this->times = times;
 }
 
-int GameModel::getHintsLast() {
+int GameModel::getHintsLast() const {
     return hintsLast;
 }
 
@@ -145,8 +143,8 @@ void GameModel::setHintsLast(int hintsLast) {
     this->hintsLast = hintsLast;
 }
 
-void GameModel::reset() {
-    srand((unsigned) time(0));
+void GameModel::reset() const {
+    srand(static_cast<unsigned>(time(nullptr)));
     for (int i = 0; i < MAX_ROW * MAX_COL; i++) {
         int randomID = rand() % (MAX_ROW * MAX_COL);
         std::swap(gameMap[i], gameMap[randomID]);

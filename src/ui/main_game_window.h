@@ -17,7 +17,7 @@ namespace Ui {
 }
 
 struct IconButton : QPushButton {
-    IconButton(QWidget *parent = Q_NULLPTR) :
+    explicit IconButton(QWidget *parent = Q_NULLPTR) :
         QPushButton(parent),
         xID(-1),
         yID(-1) {
@@ -76,7 +76,7 @@ private:
     // Logic
     GameLevel curLevel;
     bool isLinking; // 维持一个连接状态的标志
-    bool isReallylinked;
+    bool isReallyLinked;
 
     void initGame(GameLevel);
     inline void allFunBtnEnable(bool);

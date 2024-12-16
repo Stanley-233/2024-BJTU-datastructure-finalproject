@@ -2,7 +2,7 @@
 #include "ui_over_dialog.h"
 #include "QMessageBox"
 
-overDialog::overDialog(bool mode, int score, QWidget *parent) :
+overDialog::overDialog(const bool mode, const int score, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::overDialog) {
     ui->setupUi(this);
