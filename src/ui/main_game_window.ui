@@ -337,7 +337,6 @@ border-color: BLACK;</string>
     <addaction name="separator"/>
     <addaction name="separator"/>
     <addaction name="actionIntro"/>
-    <addaction name="actionVers"/>
     <addaction name="actionGroup"/>
    </widget>
    <addaction name="menutips"/>

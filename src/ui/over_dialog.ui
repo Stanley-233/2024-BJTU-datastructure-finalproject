@@ -160,7 +160,7 @@
  </widget>
  <resources>
   <include location="../../res.qrc"/>
-  <include location="res.qrc"/>
+  <include location="../../res.qrc"/>
  </resources>
  <connections/>
 </ui>

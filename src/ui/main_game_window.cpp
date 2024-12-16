@@ -338,7 +338,7 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
 
 void MainGameWindow::on_again(GameLevel mode) {
     disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
-
+    delete gameTimer;
     // 先析构之前的
     if (game) {
         delete game;
@@ -346,8 +346,7 @@ void MainGameWindow::on_again(GameLevel mode) {
             delete i;
         }
     }
-
-    //Todo: 停止音乐
+    // TODO: 停止音乐
     // 重绘
     update();
     initGame(mode);
@@ -356,7 +355,7 @@ void MainGameWindow::on_again(GameLevel mode) {
 void MainGameWindow::gameOver(bool mode) {
     //停止进度条
     gameTimer->stop();
-    //Todo: 记录游戏数据
+    // TODO: 记录游戏数据
     QString level;
     switch (curLevel) {
         case BASIC:
@@ -376,14 +375,14 @@ void MainGameWindow::gameOver(bool mode) {
 }
 
 void MainGameWindow::on_exit() {
-    //Todo: 关闭数据库
+    //TODO: 数据库
     exit(0);
 }
 
 void MainGameWindow::informationDisplay() {
     const auto *actionSender = dynamic_cast<QAction *>(sender());
     if (actionSender == ui->actionIntro) {
-        QMessageBox::information(this, "简介", "连连看");
+        QMessageBox::information(this, "简介", "巡旅联觉 - Traveller's Linkage");
     } else if (actionSender == ui->actionGroup) {
         QMessageBox::information(this, "小组成员",
                                  "54shitaimzf Billybilly233\n"
@@ -394,7 +393,7 @@ void MainGameWindow::informationDisplay() {
 
 void MainGameWindow::createGameWithLevel() {
     disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
-
+    delete gameTimer;
     // 先析构之前的
     if (game) {
         delete game;
