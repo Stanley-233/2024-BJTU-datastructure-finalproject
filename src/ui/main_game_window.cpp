@@ -22,13 +22,13 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
 
     // Menu
-    connect(ui->actionBasic, SIGNAL(triggered(bool)), this, SLOT(createGameWithLevel()));
-    connect(ui->actionMedium, SIGNAL(triggered(bool)), this, SLOT(createGameWithLevel()));
-    connect(ui->actionHard, SIGNAL(triggered(bool)), this, SLOT(createGameWithLevel()));
+    connect(ui->actionBasic, &QAction::triggered, this, &MainGameWindow::createGameWithLevel);
+    connect(ui->actionMedium, &QAction::triggered, this, &MainGameWindow::createGameWithLevel);
+    connect(ui->actionHard, &QAction::triggered, this, &MainGameWindow::createGameWithLevel);
 
-    connect(ui->actionIntro, SIGNAL(triggered(bool)), this, SLOT(informationDisplay()));
-    connect(ui->actionVers, SIGNAL(triggered(bool)), this, SLOT(informationDisplay()));
-    connect(ui->actionGroup, SIGNAL(triggered(bool)), this, SLOT(informationDisplay()));
+    connect(ui->actionIntro, &QAction::triggered, this, &MainGameWindow::informationDisplay);
+    connect(ui->actionVers, &QAction::triggered, this, &MainGameWindow::informationDisplay);
+    connect(ui->actionGroup, &QAction::triggered, this, &MainGameWindow::informationDisplay);
 
     // // 登录
     // connect(&networkHandler, &NetworkHandler::successfulLogin, this, [this] {
@@ -156,9 +156,8 @@ void MainGameWindow::init_imageBtn(bool mode) {
             QIcon icon(iconPix);
             imageButton[i]->setIcon(icon);
             imageButton[i]->setIconSize(QSize(kIconSize, kIconSize));
-
             // 添加按下的信号槽
-            connect(imageButton[i], SIGNAL(pressed()), this, SLOT(onIconButtonPressed()));
+            connect(imageButton[i], &IconButton::pressed, this, &MainGameWindow::onIconButtonPressed);
         } else
             imageButton[i]->hide();
     }
@@ -190,7 +189,7 @@ void MainGameWindow::onIconButtonPressed() {
                 //重绘, 画出连接线
                 update();
                 // 延迟后实现连接效果
-                QTimer::singleShot(kLinkTimerDelay, this, SLOT(handleLinkEffect()));
+                QTimer::singleShot(kLinkTimerDelay, this, &MainGameWindow::handleLinkEffect);
                 //每连接五次奖励一次提示
                 game->setTimes(game->getTimes() + 1);
                 if (game->getTimes() % 5 == 0 && game->getTimes() != 0)
@@ -338,13 +337,13 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
 }
 
 void MainGameWindow::on_again(GameLevel mode) {
-    gameTimer->disconnect(gameTimer, SIGNAL(timeout()), this, SLOT(gameTimerEvent()));
+    disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
+
     // 先析构之前的
     if (game) {
         delete game;
-        for (int i = 0; i < MAX_ROW * MAX_COL; i++) {
-            if (imageButton[i])
-                delete imageButton[i];
+        for (auto & i : imageButton) {
+            delete i;
         }
     }
 
@@ -395,6 +394,7 @@ void MainGameWindow::informationDisplay() {
 
 void MainGameWindow::createGameWithLevel() {
     disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
+
     // 先析构之前的
     if (game) {
         delete game;
