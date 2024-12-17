@@ -9,7 +9,6 @@ using namespace std;
 GameModel::GameModel() :
     gameStatus(PLAYING),
     gameLevel(BASIC) {
-
 }
 
 GameModel::~GameModel() {

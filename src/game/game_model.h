@@ -19,9 +19,9 @@ enum GameStatus {
 };
 
 // 游戏难度，不同的方块数
-constexpr int kBasicNum = MAX_ROW * MAX_COL * 0.3;
-constexpr int kMediumNum = MAX_ROW * MAX_COL * 0.7;
-constexpr int kHardNum = MAX_ROW * MAX_COL;
+constexpr int kBasicNum = MAX_ROW * MAX_COL * 0.2;
+constexpr int kMediumNum = MAX_ROW * MAX_COL * 0.5;
+constexpr int kHardNum = MAX_ROW * MAX_COL * 0.7;
 
 constexpr int MAXHINTS = 5;
 
@@ -36,25 +36,20 @@ struct PaintPoint {
     PaintPoint(int _x, int _y) :
         x(_x), y(_y) {
     }
-
     int x;
     int y;
 };
 
 // -------------------------------- //
 
-class GameModel {
+class GameModel final {
 public:
     GameModel();
-    virtual ~GameModel();
+    ~GameModel();
 
-public:
     void startGame(); // 开始游戏
     void startGame(GameLevel level);
     int *getGameMap() const; // 获得地图
-
-    //  //未使用
-    // GameStatus checkGameStatus(); // 判断获得游戏状态，是否输赢
 
     bool linkTwoTiles(int srcX, int srcY, int dstX, int dstY); // 连接起点和终点方块，连接是否成功
     bool isFrozen(); // 判断是否已经成为了僵局

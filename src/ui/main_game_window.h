@@ -16,7 +16,7 @@ namespace Ui {
     struct IconPutton;
 }
 
-struct IconButton : QPushButton {
+struct IconButton final : QPushButton {
     explicit IconButton(QWidget *parent = Q_NULLPTR) :
         QPushButton(parent),
         xID(-1),

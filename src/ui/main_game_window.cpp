@@ -112,7 +112,7 @@ void MainGameWindow::initGame(GameLevel level) {
 
     // 游戏计时器
     gameTimer = new QTimer(this);
-    connect(gameTimer, SIGNAL(timeout()), this, SLOT(gameTimerEvent()));
+    connect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
     //设置发出timeout()信号的间隔
     gameTimer->start(kGameTimerInterval);
 
@@ -184,6 +184,8 @@ void MainGameWindow::onIconButtonPressed() {
             if (game->linkTwoTiles(preIcon->xID, preIcon->yID, curIcon->xID, curIcon->yID)) {
                 // 锁住当前状态
                 isLinking = true;
+                // TODO: Handle Timer pause
+                gameTimer->stop();
                 // 播放音效
                 // QSound::play(":/res/sound/pair.wav");
                 //重绘, 画出连接线
@@ -229,6 +231,8 @@ void MainGameWindow::handleLinkEffect() {
     curIcon = nullptr;
     // 重绘
     update();
+    // TODO: Handle Timer pause
+    gameTimer->start();
     // 恢复状态
     isLinking = false;
 }
