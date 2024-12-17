@@ -253,111 +253,60 @@ bool GameModel::canLinkWithOneCorner(int srcX, int srcY, int dstX, int dstY) {
     return false;
 }
 
-bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY) {
-    if (srcX > dstX) {
-        // 统一化，方便后续处理
-        std::swap(srcX, dstX);
-        std::swap(srcY, dstY);
-    }
-
-    // 两种情况，横向垂线和竖向垂线，以src点作为基准遍历，双折线由直线和一个拐点的折线构成
-    // 常规情况
-    for (int y = 0; y < MAX_ROW; y++) {
-        if (y != srcY && y != dstY) {
-            if (gameMap[y * MAX_COL + srcX] == 0
-                && canLinkDirectly(srcX, srcY, srcX, y)
-                && canLinkWithOneCorner(srcX, y, dstX, dstY)) {
-                if (!isFrozenMode) {
-                    PaintPoint p1(srcX, srcY), p2(srcX, y), p3(dstX, y), p4(dstX, dstY);
-                    paintPoints.clear();
-                    paintPoints.push_back(p1);
-                    paintPoints.push_back(p2);
-                    paintPoints.push_back(p3);
-                    paintPoints.push_back(p4);
+bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
+{
+    //内部用到的方便小函数，lambda实现
+    auto getSmaller = [](const int a, const int b){return a > b ? b : a;};
+    auto getBigger = [](const int a, const int b){return a > b ? a : b;};
+    //判断是否有平行于y轴的空线段
+    for(int y = 0; y < MAX_ROW; ++y){
+        if(y != srcY && y != dstY){
+            bool linkable = true;
+            for(int x = getSmaller(srcX, dstX); x <= getBigger(srcX, dstX); x++)
+                if(gameMap[y * MAX_COL + x] != 0){
+                    linkable = false;
+                    break;
                 }
-                return true;
+            //如果存在空线段，是否可以垂直链接其首尾
+            if(linkable){
+                if(canLinkDirectly(srcX, srcY, srcX, y) && canLinkDirectly(dstX, dstY, dstX, y) == true){
+                    //将绘制连线的顶点依次push到队列末尾
+                    if(!isFrozenMode){
+                        paintPoints.clear();
+                        paintPoints.push_back(PaintPoint(srcX, srcY));
+                        paintPoints.push_back(PaintPoint(srcX, y));
+                        paintPoints.push_back(PaintPoint(dstX, y));
+                        paintPoints.push_back(PaintPoint(dstX, dstY));
+                    }
+                    return true;
+                }
             }
         }
     }
-
-    for (int x = 0; x < MAX_COL; x++) {
-        if (x != srcX && x != dstX) {
-            if (gameMap[srcY * MAX_COL + x] == 0
-                && canLinkDirectly(srcX, srcY, x, srcY)
-                && canLinkWithOneCorner(x, srcY, dstX, dstY)) {
-                if (!isFrozenMode) {
-                    PaintPoint p1(srcX, srcY), p2(x, srcY), p3(x, dstY), p4(dstX, dstY);
-                    paintPoints.clear();
-                    paintPoints.push_back(p1);
-                    paintPoints.push_back(p2);
-                    paintPoints.push_back(p3);
-                    paintPoints.push_back(p4);
+    //x宇称后同理
+    for(int x = 0; x < MAX_COL; ++x){
+        if(x != srcX && x != dstX){
+            bool linkable = true;
+            for(int y = getSmaller(srcY, dstY); y <= getBigger(srcY, dstY); y++)
+                if(gameMap[y * MAX_COL + x] != 0){
+                    linkable = false;
+                    break;
                 }
-                return true;
+            if(linkable){
+                if(canLinkDirectly(srcX, srcY, x, srcY) && canLinkDirectly(dstX, dstY, x, dstY) == true){
+                    if(!isFrozenMode){
+                        paintPoints.clear();
+                        paintPoints.push_back(PaintPoint(srcX, srcY));
+                        paintPoints.push_back(PaintPoint(x, srcY));
+                        paintPoints.push_back(PaintPoint(x, dstY));
+                        paintPoints.push_back(PaintPoint(dstX, dstY));
+                    }
+                    return true;
+                }
             }
         }
     }
-
-    // 边缘情况，从外边缘连接，注意方块不一定在边缘,（分开写便于记录路径)
-    if ((srcX == 0 || gameMap[srcY * MAX_COL + 0] == 0 && canLinkDirectly(srcX, srcY, 0, srcY))
-        && (dstX == 0 || gameMap[dstY * MAX_COL + 0] == 0 && canLinkDirectly(0, dstY, dstX, dstY))) {
-        // 左
-        if (!isFrozenMode) {
-            PaintPoint p1(srcX, srcY), p2(-1, srcY), p3(-1, dstY), p4(dstX, dstY);
-            paintPoints.clear();
-            paintPoints.push_back(p1);
-            paintPoints.push_back(p2);
-            paintPoints.push_back(p3);
-            paintPoints.push_back(p4);
-
-        }
-        return true;
-    }
-
-    if ((srcX == MAX_COL - 1 || gameMap[srcY * MAX_COL + MAX_COL - 1] == 0 && canLinkDirectly(
-                 srcX, srcY, MAX_COL - 1, srcY))
-        && (dstX == MAX_COL - 1 || gameMap[dstY * MAX_COL + MAX_COL - 1] == 0 && canLinkDirectly(
-                    MAX_COL - 1, dstY, dstX, dstY))) {
-        // 右
-        if (!isFrozenMode) {
-            PaintPoint p1(srcX, srcY), p2(MAX_COL, srcY), p3(MAX_COL, dstY), p4(dstX, dstY);
-            paintPoints.clear();
-            paintPoints.push_back(p1);
-            paintPoints.push_back(p2);
-            paintPoints.push_back(p3);
-            paintPoints.push_back(p4);
-
-        }
-        return true;
-    }
-    if ((srcY == 0 || gameMap[srcX] == 0 && canLinkDirectly(srcX, srcY, srcX, 0))
-        && (dstY == 0 || gameMap[dstX] == 0 && canLinkDirectly(dstX, 0, dstX, dstY))) {
-        // 上
-        if (!isFrozenMode) {
-            PaintPoint p1(srcX, srcY), p2(srcX, -1), p3(dstX, -1), p4(dstX, dstY);
-            paintPoints.clear();
-            paintPoints.push_back(p1);
-            paintPoints.push_back(p2);
-            paintPoints.push_back(p3);
-            paintPoints.push_back(p4);
-        }
-        return true;
-    }
-    if ((srcY == MAX_ROW - 1 || gameMap[(MAX_ROW - 1) * MAX_COL + srcX] == 0 && canLinkDirectly(
-                 srcX, srcY, srcX, MAX_ROW - 1))
-        && (dstY == MAX_ROW - 1 || gameMap[(MAX_ROW - 1) * MAX_COL + dstX] == 0 && canLinkDirectly(
-                    dstX, MAX_ROW - 1, dstX, dstY))) {
-        // 下
-        if (!isFrozenMode) {
-            PaintPoint p1(srcX, srcY), p2(srcX, MAX_ROW), p3(dstX, MAX_ROW), p4(dstX, dstY);
-            paintPoints.clear();
-            paintPoints.push_back(p1);
-            paintPoints.push_back(p2);
-            paintPoints.push_back(p3);
-            paintPoints.push_back(p4);
-        }
-        return true;
-    }
+    //都没有找到合适的空行，返回无法链接的判定
     return false;
 }
 
