@@ -73,6 +73,10 @@ public:
     //打乱剩余方块
     void reset() const;
 
+    // 每日挑战
+    void startGameWithSeed(unsigned int seed);
+    void resetWithSeed(unsigned int seed) const;
+
 private:
     // 游戏地图，存储方块，0表示消失，1-其他数字表示图片标号
     int *gameMap;

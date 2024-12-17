@@ -344,3 +344,11 @@ bool GameModel::linkTwoTiles(int srcX, int srcY, int dstX, int dstY) {
     }
     return false;
 }
+
+void GameModel::startGameWithSeed(unsigned int seed) {
+    // TODO
+}
+
+void GameModel::resetWithSeed(unsigned int seed) const {
+    // TODO
+}
