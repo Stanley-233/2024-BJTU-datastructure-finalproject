@@ -184,9 +184,14 @@ void MainGameWindow::onIconButtonPressed() {
             if (game->linkTwoTiles(preIcon->xID, preIcon->yID, curIcon->xID, curIcon->yID)) {
                 // 锁住当前状态
                 isLinking = true;
-                // TODO: Handle Timer pause
+                // Handle Timer pause
                 gameTimer->stop();
-                // 播放音效
+                QTimer *pauseTimer = new QTimer(this);
+                connect(pauseTimer, &QTimer::timeout, [this] {
+                    gameTimer->start();
+                });
+                pauseTimer->start(2500);
+                // TODO:播放音效
                 // QSound::play(":/res/sound/pair.wav");
                 //重绘, 画出连接线
                 update();
@@ -231,8 +236,6 @@ void MainGameWindow::handleLinkEffect() {
     curIcon = nullptr;
     // 重绘
     update();
-    // TODO: Handle Timer pause
-    gameTimer->start();
     // 恢复状态
     isLinking = false;
 }
