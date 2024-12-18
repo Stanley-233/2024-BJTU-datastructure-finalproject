@@ -307,7 +307,85 @@ bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
             }
         }
     }
-    //Todo: 制作边缘连接
+    //外边缘连接实现
+    bool linkable = true;
+    for(int x = 0; x < srcX; ++x){
+        if(gameMap[srcY * MAX_COL + x] != 0)
+            linkable = false;
+    }
+    for(int x = 0; x < dstX; ++x){
+        if(gameMap[dstY * MAX_COL + x] != 0)
+            linkable = false;
+    }
+    if(linkable){
+        if(!isFrozenMode){
+            paintPoints.clear();
+            paintPoints.push_back(PaintPoint(srcX, srcY));
+            paintPoints.push_back(PaintPoint(-1, srcY));
+            paintPoints.push_back(PaintPoint(-1, dstY));
+            paintPoints.push_back(PaintPoint(dstX, dstY));
+        }
+        return true;
+    }
+
+    linkable = true;
+    for(int x = MAX_COL - 1; x > srcX; --x){
+        if(gameMap[srcY * MAX_COL + x] != 0)
+            linkable = false;
+    }
+    for(int x = MAX_COL - 1; x > dstX; --x){
+        if(gameMap[dstY * MAX_COL + x] != 0)
+            linkable = false;
+    }
+    if(linkable){
+        if(!isFrozenMode){
+            paintPoints.clear();
+            paintPoints.push_back(PaintPoint(srcX, srcY));
+            paintPoints.push_back(PaintPoint(MAX_COL, srcY));
+            paintPoints.push_back(PaintPoint(MAX_COL, dstY));
+            paintPoints.push_back(PaintPoint(dstX, dstY));
+        }
+        return true;
+    }
+    linkable = true;
+    for(int y = 0; y < srcY; ++y){
+        if(gameMap[y * MAX_COL + srcX] != 0)
+            linkable = false;
+    }
+    for(int y = 0; y < dstY; ++y){
+        if(gameMap[y * MAX_COL + dstX] != 0)
+            linkable = false;
+    }
+    if(linkable){
+        if(!isFrozenMode){
+            paintPoints.clear();
+            paintPoints.push_back(PaintPoint(srcX, srcY));
+            paintPoints.push_back(PaintPoint(srcX, -1));
+            paintPoints.push_back(PaintPoint(dstX, -1));
+            paintPoints.push_back(PaintPoint(dstX, dstY));
+        }
+        return true;
+    }
+
+    linkable = true;
+    for(int y = MAX_ROW - 1; y > srcY; --y){
+        if(gameMap[y * MAX_COL + srcX] != 0)
+            linkable = false;
+    }
+    for(int y = MAX_ROW - 1; y > dstY; --y){
+        if(gameMap[y * MAX_COL + dstX] != 0)
+            linkable = false;
+    }
+    if(linkable){
+        if(!isFrozenMode){
+            paintPoints.clear();
+            paintPoints.push_back(PaintPoint(srcX, srcY));
+            paintPoints.push_back(PaintPoint(srcX, MAX_ROW));
+            paintPoints.push_back(PaintPoint(dstX, MAX_ROW));
+            paintPoints.push_back(PaintPoint(dstX, dstY));
+        }
+        return true;
+    }
     //都没有找到合适的空行，返回无法链接的判定
     return false;
 }
