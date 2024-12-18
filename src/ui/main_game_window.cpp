@@ -184,13 +184,6 @@ void MainGameWindow::onIconButtonPressed() {
             if (game->linkTwoTiles(preIcon->xID, preIcon->yID, curIcon->xID, curIcon->yID)) {
                 // 锁住当前状态
                 isLinking = true;
-                // Handle Timer pause
-                gameTimer->stop();
-                QTimer *pauseTimer = new QTimer(this);
-                connect(pauseTimer, &QTimer::timeout, [this] {
-                    gameTimer->start();
-                });
-                pauseTimer->start(2500);
                 // TODO:播放音效
                 // QSound::play(":/res/sound/pair.wav");
                 //重绘, 画出连接线
@@ -208,6 +201,13 @@ void MainGameWindow::onIconButtonPressed() {
                 isReallyLinked = false;
                 if (game->isWin())
                     gameOver(true);
+                // 加时奖励
+                auto bonusedTime = ui->timeBar->value() + kBonusTime * kGameTimerInterval;
+                if (bonusedTime >= kGameTimeTotal) {
+                    ui->timeBar->setValue(kGameTimeTotal);
+                } else {
+                    ui->timeBar->setValue(bonusedTime);
+                }
             } else {
                 // 播放音效
                 // QSound::play(":/res/sound/release.wav");

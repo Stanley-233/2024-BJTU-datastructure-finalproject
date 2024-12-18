@@ -42,6 +42,7 @@ class MainGameWindow final : public QMainWindow {
     const int kGameTimeTotal = 5 * 60 * 1000; // 总时间
     const int kGameTimerInterval = 300;
     const int kLinkTimerDelay = 700;
+    const int kBonusTime = 100;
 
 public:
     explicit MainGameWindow(QWidget *parent = nullptr);
