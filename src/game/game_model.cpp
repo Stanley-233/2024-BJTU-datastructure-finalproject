@@ -188,6 +188,7 @@ bool GameModel::canLinkDirectly(int srcX, int srcY, int dstX, int dstY) {
 }
 
 bool GameModel::canLinkWithOneCorner(int srcX, int srcY, int dstX, int dstY) {
+    //Todo: 待重构
     if (srcX > dstX) {
         // 统一化，方便后续处理
         std::swap(srcX, dstX);
@@ -306,6 +307,7 @@ bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
             }
         }
     }
+    //Todo: 制作边缘连接
     //都没有找到合适的空行，返回无法链接的判定
     return false;
 }
