@@ -127,6 +127,16 @@ void MainGameWindow::initGame(GameLevel level) {
     preIcon = nullptr;
     isLinking = false;
     isReallyLinked = false;
+
+    // 设置难度加时
+    switch (level) {
+        case BASIC:
+            kBonusTime = 100;
+        case MEDIUM:
+            kBonusTime = 80;
+        case HARD:
+            kBonusTime = 70;
+    }
 }
 
 void MainGameWindow::allFunBtnEnable(const bool state) {
