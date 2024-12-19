@@ -52,6 +52,7 @@ public:
 private slots:
     void onLoginMessage(bool mode, QString name, QString password);
     void on_muteBtn_clicked();
+    void on_hintBtn_clicked(); // 提示按钮
     void onIconButtonPressed();
     void handleLinkEffect();
     void gameTimerEvent();

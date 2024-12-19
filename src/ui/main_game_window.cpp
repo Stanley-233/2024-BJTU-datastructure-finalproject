@@ -349,7 +349,7 @@ void MainGameWindow::on_again(GameLevel mode) {
     // 先析构之前的
     if (game) {
         delete game;
-        for (auto & i : imageButton) {
+        for (auto &i: imageButton) {
             delete i;
         }
     }
@@ -418,4 +418,30 @@ void MainGameWindow::createGameWithLevel() {
     } else if (actionSender == ui->actionHard) {
         initGame(HARD);
     }
+}
+
+void MainGameWindow::on_hintBtn_clicked() {
+    if (!game->getHintsLast())
+        return;
+
+    // 初始时不能获得提示
+    for (int i = 0; i < 4; i++)
+        if (game->getHint()[i] == -1)
+            return;
+
+    if (!isReallyLinked) {
+        game->setHintsLast(game->getHintsLast() - 1);
+        isReallyLinked = true;
+    }
+    ui->hintsLastLab->setText(QString::number(game->getHintsLast()));
+
+    int srcX = game->getHint()[0];
+    int srcY = game->getHint()[1];
+    int dstX = game->getHint()[2];
+    int dstY = game->getHint()[3];
+
+    IconButton *srcIcon = imageButton[srcY * MAX_COL + srcX];
+    IconButton *dstIcon = imageButton[dstY * MAX_COL + dstX];
+    srcIcon->setStyleSheet(kIconHintStyle);
+    dstIcon->setStyleSheet(kIconHintStyle);
 }
