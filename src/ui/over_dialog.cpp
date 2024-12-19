@@ -10,12 +10,19 @@ overDialog::overDialog(const bool mode, const int score, QWidget *parent) :
     QSize picSize;
     picSize.setHeight(240);
     picSize.setWidth(560);
-    if (mode == true)
+    win->setSource(QUrl::fromLocalFile(":/res/sound/win.wav"));
+    lose->setSource(QUrl::fromLocalFile(":/res/sound/lose.wav"));
+    if (mode == true) {
         p.load(":/res/dialog/victory.png");
-    else
+        win->play();
+    }
+    else {
         p.load(":/res/dialog/gameover.png");
+        lose->play();
+    }
     ui->label->setPixmap(p.scaled(picSize, Qt::IgnoreAspectRatio));
     ui->score->setText(QString::number(score));
+
     setFixedSize(geometry().size());
     setWindowTitle("游戏结束");
 }

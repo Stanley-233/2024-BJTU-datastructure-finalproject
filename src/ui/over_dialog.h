@@ -2,6 +2,8 @@
 #define OVERDIALOG_H
 
 #include <QDialog>
+#include <QSoundEffect>
+
 #include "../game/game_model.h"
 
 namespace Ui {
@@ -29,6 +31,8 @@ private slots:
 
 private:
     Ui::overDialog *ui;
+    QSoundEffect *win = new QSoundEffect();
+    QSoundEffect *lose = new QSoundEffect();
 
 signals:
     void again(GameLevel mode);

@@ -21,10 +21,6 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->centralWidget->installEventFilter(this);
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
-    
-    //bgm
-    player.setAudioOutput(&audioOutput);
-    audioOutput.setVolume(1.0);
 
     // Menu
     connect(ui->actionBasic, &QAction::triggered, this, &MainGameWindow::createGameWithLevel);
@@ -58,6 +54,12 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     // connect(&lg, &LoginDialog::sendingUserMsg, this, &MainGameWindow::onLoginMessage);
     // connect(this, &MainGameWindow::login_dialog_message, &lg, &LoginDialog::on_DialogState);
     // lg.exec();
+
+    // Sound
+    release->setSource(QUrl::fromLocalFile(":/res/sound/release.wav"));
+    pair->setSource(QUrl::fromLocalFile(":/res/sound/pair.wav"));
+    select->setSource(QUrl::fromLocalFile(":/res/sound/select.wav"));
+    nolink->setSource(QUrl::fromLocalFile(":/res/sound/nolink.wav"));
 
     // BGM
     player.setAudioOutput(&audioOutput);
@@ -172,13 +174,14 @@ void MainGameWindow::onIconButtonPressed() {
     // 如果当前有方块在连接，不能点击方块
     if (isLinking) {
         // 播放音效
-
+        release->play();
         return;
     }
     // 记录当前点击的icon
     curIcon = dynamic_cast<IconButton *>(sender());
     if (!preIcon) {
         // 播放音效
+        select->play();
         curIcon->setStyleSheet(kIconClickedStyle);
         preIcon = curIcon;
     } else {
@@ -188,8 +191,8 @@ void MainGameWindow::onIconButtonPressed() {
             if (game->linkTwoTiles(preIcon->xID, preIcon->yID, curIcon->xID, curIcon->yID)) {
                 // 锁住当前状态
                 isLinking = true;
-                // TODO:播放音效
-
+                // 播放成功链接音效
+                pair->play();
                 //重绘, 画出连接线
                 update();
                 // 延迟后实现连接效果
@@ -214,8 +217,7 @@ void MainGameWindow::onIconButtonPressed() {
                 }
             } else {
                 // 播放音效
-                // QSound::play(":/res/sound/release.wav");
-
+                nolink->play();
                 // 消除失败，恢复
                 preIcon->setStyleSheet(kIconReleasedStyle);
                 curIcon->setStyleSheet(kIconReleasedStyle);
@@ -224,8 +226,7 @@ void MainGameWindow::onIconButtonPressed() {
             }
         } else if (curIcon == preIcon) {
             // 播放音效
-            // QSound::play(":/res/sound/release.wav");
-            
+            release->play();
             preIcon->setStyleSheet(kIconReleasedStyle);
             curIcon->setStyleSheet(kIconReleasedStyle);
             preIcon = nullptr;

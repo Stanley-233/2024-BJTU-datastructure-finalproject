@@ -43,7 +43,7 @@ class MainGameWindow final : public QMainWindow {
     const int kGameTimeTotal = 5 * 60 * 1000; // 总时间
     const int kGameTimerInterval = 300;
     const int kLinkTimerDelay = 700;
-    const int kBonusTime = 100;
+    int kBonusTime = 100;
 
 public:
     explicit MainGameWindow(QWidget *parent = nullptr);
@@ -76,10 +76,15 @@ private:
     GameModel *game;
     IconButton *imageButton[MAX_ROW * MAX_COL]; // 图片button数组
     IconButton *preIcon, *curIcon; // 记录点击的icon
+
+    // Music and sound
     QMediaPlayer *Player;
     QAudioOutput *AudioOutput;
+    QSoundEffect *release = new QSoundEffect();
+    QSoundEffect *select = new QSoundEffect();
+    QSoundEffect *pair = new QSoundEffect();
+    QSoundEffect *nolink = new QSoundEffect();
 
-    
     // Logic
     GameLevel curLevel;
     bool isLinking; // 维持一个连接状态的标志
