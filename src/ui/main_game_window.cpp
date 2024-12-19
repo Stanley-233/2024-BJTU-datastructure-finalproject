@@ -23,9 +23,8 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
     
     //bgm
-
-    player->setAudioOutput(audioOutput);
-    audioOutput->setVolume(1.0); 
+    player.setAudioOutput(&audioOutput);
+    audioOutput.setVolume(1.0);
 
     // Menu
     connect(ui->actionBasic, &QAction::triggered, this, &MainGameWindow::createGameWithLevel);
@@ -173,18 +172,13 @@ void MainGameWindow::onIconButtonPressed() {
     // 如果当前有方块在连接，不能点击方块
     if (isLinking) {
         // 播放音效
-        // QSound::play(":/res/sound/release.wav");
-         player->setSource(QUrl("qrc:/res/sound/release.wav"));
-        player->play();
+
         return;
     }
     // 记录当前点击的icon
     curIcon = dynamic_cast<IconButton *>(sender());
     if (!preIcon) {
         // 播放音效
-        // QSound::play(":/res/sound/select.wav");
-         player->setSource(QUrl("qrc:/res/sound/select.wav"));
-        player->play();
         curIcon->setStyleSheet(kIconClickedStyle);
         preIcon = curIcon;
     } else {
@@ -195,9 +189,7 @@ void MainGameWindow::onIconButtonPressed() {
                 // 锁住当前状态
                 isLinking = true;
                 // TODO:播放音效
-                // QSound::play(":/res/sound/pair.wav");
-                 player->setSource(QUrl("qrc:/res/sound/select.wav"));
-                 player->play();
+
                 //重绘, 画出连接线
                 update();
                 // 延迟后实现连接效果
@@ -223,8 +215,7 @@ void MainGameWindow::onIconButtonPressed() {
             } else {
                 // 播放音效
                 // QSound::play(":/res/sound/release.wav");
-                player->setSource(QUrl("qrc:/res/sound/release.wav"));
-                player->play();
+
                 // 消除失败，恢复
                 preIcon->setStyleSheet(kIconReleasedStyle);
                 curIcon->setStyleSheet(kIconReleasedStyle);
@@ -234,8 +225,7 @@ void MainGameWindow::onIconButtonPressed() {
         } else if (curIcon == preIcon) {
             // 播放音效
             // QSound::play(":/res/sound/release.wav");
-            player->setSource(QUrl("qrc:/res/sound/release.wav"));
-            player->play();
+            
             preIcon->setStyleSheet(kIconReleasedStyle);
             curIcon->setStyleSheet(kIconReleasedStyle);
             preIcon = nullptr;

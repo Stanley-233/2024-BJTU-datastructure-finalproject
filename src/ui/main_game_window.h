@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QTimer>
 #include <QMediaPlayer>
+#include <QSoundEffect>
 #include <QAudioOutput>
 
 #include "../network/network_handler.h"
