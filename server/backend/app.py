@@ -66,7 +66,7 @@ def register():
 
 @app.route('/seed', methods=['GET'])
 def seed():
-
+    return 1
 
 @app.route('/rank', methods=['GET'])
 def rank():
