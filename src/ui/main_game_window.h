@@ -75,6 +75,10 @@ private:
     GameModel *game;
     IconButton *imageButton[MAX_ROW * MAX_COL]; // 图片button数组
     IconButton *preIcon, *curIcon; // 记录点击的icon
+    QMediaPlayer *Player;
+    QAudioOutput *AudioOutput;
+
+    
     // Logic
     GameLevel curLevel;
     bool isLinking; // 维持一个连接状态的标志
