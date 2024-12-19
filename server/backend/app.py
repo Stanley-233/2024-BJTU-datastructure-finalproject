@@ -64,6 +64,20 @@ def register():
     finally:
         conn.close()
 
+@app.route('/seed', methods=['GET'])
+def seed():
+
+
+@app.route('/rank', methods=['GET'])
+def rank():
+    data = request.json
+    username = data.get('username')
+    level = data.get('leve')
+    score = data.get('score')
+    if not username or not level or not score:
+        return jsonify({'message': 'Missing Information!'}), 400
+
+
 @app.route('/')
 def hello_world():  # put application's code here
     init_db()
