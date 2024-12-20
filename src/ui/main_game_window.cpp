@@ -32,28 +32,30 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     connect(ui->actionGroup, &QAction::triggered, this, &MainGameWindow::informationDisplay);
 
     // 登录
-    connect(&networkHandler, &NetworkHandler::successfulLogin, this, [this] {
-        emit login_dialog_message(true, true, "登录成功！");
-    });
-    connect(&networkHandler, &NetworkHandler::wrongPassword, this, [this] {
-        emit login_dialog_message(false, true, "登陆失败：密码错误！");
-    });
-    connect(&networkHandler, &NetworkHandler::noUser, this, [this] {
-        emit login_dialog_message(false, true, "登陆失败：用户未注册！");
-    });
-    connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
-        emit login_dialog_message(false, true, "登陆失败：服务器错误！");
-    });
-    connect(&networkHandler, &NetworkHandler::successfulRegister, this, [this] {
-        emit login_dialog_message(true, false, "注册成功！");
-    });
-    connect(&networkHandler, &NetworkHandler::alreadyRegistered, this, [this] {
-        emit login_dialog_message(false, false, "注册失败：已存在用户！");;
-    });
-    LoginDialog lg(this);
-    connect(&lg, &LoginDialog::sendingUserMsg, this, &MainGameWindow::onLoginMessage);
-    connect(this, &MainGameWindow::login_dialog_message, &lg, &LoginDialog::on_DialogState);
-    lg.exec();
+    #ifndef __ANDROID__
+        connect(&networkHandler, &NetworkHandler::successfulLogin, this, [this] {
+            emit login_dialog_message(true, true, "登录成功！");
+        });
+        connect(&networkHandler, &NetworkHandler::wrongPassword, this, [this] {
+            emit login_dialog_message(false, true, "登陆失败：密码错误！");
+        });
+        connect(&networkHandler, &NetworkHandler::noUser, this, [this] {
+            emit login_dialog_message(false, true, "登陆失败：用户未注册！");
+        });
+        connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
+            emit login_dialog_message(false, true, "登陆失败：服务器错误！");
+        });
+        connect(&networkHandler, &NetworkHandler::successfulRegister, this, [this] {
+            emit login_dialog_message(true, false, "注册成功！");
+        });
+        connect(&networkHandler, &NetworkHandler::alreadyRegistered, this, [this] {
+            emit login_dialog_message(false, false, "注册失败：已存在用户！");;
+        });
+        LoginDialog lg(this);
+        connect(&lg, &LoginDialog::sendingUserMsg, this, &MainGameWindow::onLoginMessage);
+        connect(this, &MainGameWindow::login_dialog_message, &lg, &LoginDialog::on_DialogState);
+        lg.exec();
+    #endif
 
     // Sound
     release->setSource(QUrl::fromLocalFile(":/res/sound/release.wav"));
@@ -345,8 +347,13 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
             } else
                 btn_pos2 = imageButton[p2.y * MAX_COL + p2.x]->pos();
             // 中心点
-            QPoint pos1(btn_pos1.x() + kIconSize / 2, btn_pos1.y() - kIconSize / 2);
-            QPoint pos2(btn_pos2.x() + kIconSize / 2, btn_pos2.y() - kIconSize / 2);
+            #ifdef __ANDROID__
+                QPoint pos1(btn_pos1.x() + kIconSize / 2, btn_pos1.y() - kIconSize / 2 + 15.5);
+                QPoint pos2(btn_pos2.x() + kIconSize / 2, btn_pos2.y() - kIconSize / 2 + 15.5);
+            #else
+                QPoint pos1(btn_pos1.x() + kIconSize / 2, btn_pos1.y() - kIconSize / 2);
+                QPoint pos2(btn_pos2.x() + kIconSize / 2, btn_pos2.y() - kIconSize / 2);
+            #endif
             painter.drawLine(pos1, pos2);
         }
         //如果僵局则重绘
