@@ -10,8 +10,8 @@ NetworkHandler::NetworkHandler(QObject *parent) :
 
 void NetworkHandler::login(const QString &username,
                            const QString &password) {
-    // TODO: Change it to deployment
-    QNetworkRequest request(QUrl("http://127.0.0.1:5000/login"));
+    // Changed it to deployment
+    QNetworkRequest request(QUrl("http://llk.bearingwall.top/login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     this->username = username;
@@ -27,8 +27,8 @@ void NetworkHandler::login(const QString &username,
 
 void NetworkHandler::registerUser(const QString &username,
                                   const QString &password) const {
-    // TODO: Change it to deployment
-    QNetworkRequest request(QUrl("http://127.0.0.1:5000/register"));
+    // Changed it to deployment
+    QNetworkRequest request(QUrl("http://llk.bearingwall.top/login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QJsonObject json;
