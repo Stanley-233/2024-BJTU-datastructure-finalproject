@@ -28,7 +28,7 @@ void NetworkHandler::login(const QString &username,
 void NetworkHandler::registerUser(const QString &username,
                                   const QString &password) const {
     // Changed it to deployment
-    QNetworkRequest request(QUrl("http://llk.bearingwall.top/login"));
+    QNetworkRequest request(QUrl("http://llk.bearingwall.top/register"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QJsonObject json;
