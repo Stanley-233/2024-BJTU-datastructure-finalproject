@@ -59,6 +59,9 @@ private slots:
     void gameTimerEvent();
     void on_pauseBtn_clicked();
     void on_resetBtn_clicked();
+    void on_recordBtn_clicked();
+    void on_dailyButton_clicked();
+    void on_getRankButton_clicked();
     void on_again(GameLevel mode);
     void on_exit();
     void informationDisplay();
@@ -69,7 +72,6 @@ signals:
 private:
     // GUI
     Ui::MainGameWindow *ui;
-    NetworkHandler networkHandler;
     QAudioOutput audioOutput;
     QMediaPlayer player;
     QTimer *gameTimer; // 游戏计时器
@@ -89,6 +91,10 @@ private:
     GameLevel curLevel;
     bool isLinking; // 维持一个连接状态的标志
     bool isReallyLinked;
+
+    // Network
+    NetworkHandler networkHandler;
+    int seed = 0;
 
     void initGame(GameLevel);
     inline void allFunBtnEnable(bool);

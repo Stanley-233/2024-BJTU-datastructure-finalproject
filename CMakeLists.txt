@@ -30,6 +30,7 @@ set(PROJECT_SOURCES
         src/ui/over_dialog.ui
         src/game/game_model.h
         src/game/game_model.cpp
+        src/network/ranking_record.h
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

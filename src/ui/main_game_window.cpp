@@ -467,3 +467,26 @@ void MainGameWindow::on_hintBtn_clicked() {
     srcIcon->setStyleSheet(kIconHintStyle);
     dstIcon->setStyleSheet(kIconHintStyle);
 }
+
+void MainGameWindow::on_recordBtn_clicked() {
+    QMessageBox::information(this,tr("TODO"),tr("TODO"));
+}
+
+void MainGameWindow::on_dailyButton_clicked() {
+    if (!seed) {
+        // 调用 networkHandler 获取种子
+        networkHandler.getSeed();
+        // 连接信号以处理获取到的种子
+        connect(&networkHandler, &NetworkHandler::seed, this, [this](const int seed) {
+            // 显示获取到的种子
+            QMessageBox::information(this, tr("种子获取成功"), tr("获取到的种子是: %1").arg(seed));
+            this->seed = seed;
+        });
+    } else {
+        QMessageBox::information(this, tr("种子获取成功"), tr("获取到的种子是: %1").arg(seed));
+    }
+}
+
+void MainGameWindow::on_getRankButton_clicked() {
+    QMessageBox::information(this,tr("TODO"),tr("TODO"));
+}
