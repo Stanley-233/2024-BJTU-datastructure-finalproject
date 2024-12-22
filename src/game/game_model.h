@@ -23,13 +23,15 @@ enum GameStatus {
 constexpr int kBasicNum = MAX_ROW * MAX_COL * 0.2;
 constexpr int kMediumNum = MAX_ROW * MAX_COL * 0.5;
 constexpr int kHardNum = MAX_ROW * MAX_COL * 0.7;
+constexpr int kDailyNum = MAX_ROW * MAX_COL * 0.9;
 
 constexpr int MAXHINTS = 5;
 
 enum GameLevel {
     BASIC,
     MEDIUM,
-    HARD
+    HARD,
+    DAILY
 };
 
 // 用于绘制线段的连接点

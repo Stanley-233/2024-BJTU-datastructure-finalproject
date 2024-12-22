@@ -20,7 +20,6 @@ GameModel::~GameModel() {
 }
 
 void GameModel::startGame(GameLevel level) {
-
     score = 0;
 
     hintsLast = MAXHINTS;
@@ -254,25 +253,24 @@ bool GameModel::canLinkWithOneCorner(int srcX, int srcY, int dstX, int dstY) {
     return false;
 }
 
-bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
-{
+bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY) {
     //内部用到的方便小函数，lambda实现
-    auto getSmaller = [](const int a, const int b){return a > b ? b : a;};
-    auto getBigger = [](const int a, const int b){return a > b ? a : b;};
+    auto getSmaller = [](const int a, const int b) { return a > b ? b : a; };
+    auto getBigger = [](const int a, const int b) { return a > b ? a : b; };
     //判断是否有平行于y轴的空线段
-    for(int y = 0; y < MAX_ROW; ++y){
-        if(y != srcY && y != dstY){
+    for (int y = 0; y < MAX_ROW; ++y) {
+        if (y != srcY && y != dstY) {
             bool linkable = true;
-            for(int x = getSmaller(srcX, dstX); x <= getBigger(srcX, dstX); x++)
-                if(gameMap[y * MAX_COL + x] != 0){
+            for (int x = getSmaller(srcX, dstX); x <= getBigger(srcX, dstX); x++)
+                if (gameMap[y * MAX_COL + x] != 0) {
                     linkable = false;
                     break;
                 }
             //如果存在空线段，是否可以垂直链接其首尾
-            if(linkable){
-                if(canLinkDirectly(srcX, srcY, srcX, y) && canLinkDirectly(dstX, dstY, dstX, y) == true){
+            if (linkable) {
+                if (canLinkDirectly(srcX, srcY, srcX, y) && canLinkDirectly(dstX, dstY, dstX, y) == true) {
                     //将绘制连线的顶点依次push到队列末尾
-                    if(!isFrozenMode){
+                    if (!isFrozenMode) {
                         paintPoints.clear();
                         paintPoints.push_back(PaintPoint(srcX, srcY));
                         paintPoints.push_back(PaintPoint(srcX, y));
@@ -285,17 +283,17 @@ bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
         }
     }
     //x宇称后同理
-    for(int x = 0; x < MAX_COL; ++x){
-        if(x != srcX && x != dstX){
+    for (int x = 0; x < MAX_COL; ++x) {
+        if (x != srcX && x != dstX) {
             bool linkable = true;
-            for(int y = getSmaller(srcY, dstY); y <= getBigger(srcY, dstY); y++)
-                if(gameMap[y * MAX_COL + x] != 0){
+            for (int y = getSmaller(srcY, dstY); y <= getBigger(srcY, dstY); y++)
+                if (gameMap[y * MAX_COL + x] != 0) {
                     linkable = false;
                     break;
                 }
-            if(linkable){
-                if(canLinkDirectly(srcX, srcY, x, srcY) && canLinkDirectly(dstX, dstY, x, dstY) == true){
-                    if(!isFrozenMode){
+            if (linkable) {
+                if (canLinkDirectly(srcX, srcY, x, srcY) && canLinkDirectly(dstX, dstY, x, dstY) == true) {
+                    if (!isFrozenMode) {
                         paintPoints.clear();
                         paintPoints.push_back(PaintPoint(srcX, srcY));
                         paintPoints.push_back(PaintPoint(x, srcY));
@@ -309,16 +307,16 @@ bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
     }
     //外边缘连接实现
     bool linkable = true;
-    for(int x = 0; x < srcX; ++x){
-        if(gameMap[srcY * MAX_COL + x] != 0)
+    for (int x = 0; x < srcX; ++x) {
+        if (gameMap[srcY * MAX_COL + x] != 0)
             linkable = false;
     }
-    for(int x = 0; x < dstX; ++x){
-        if(gameMap[dstY * MAX_COL + x] != 0)
+    for (int x = 0; x < dstX; ++x) {
+        if (gameMap[dstY * MAX_COL + x] != 0)
             linkable = false;
     }
-    if(linkable){
-        if(!isFrozenMode){
+    if (linkable) {
+        if (!isFrozenMode) {
             paintPoints.clear();
             paintPoints.push_back(PaintPoint(srcX, srcY));
             paintPoints.push_back(PaintPoint(-1, srcY));
@@ -329,16 +327,16 @@ bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
     }
 
     linkable = true;
-    for(int x = MAX_COL - 1; x > srcX; --x){
-        if(gameMap[srcY * MAX_COL + x] != 0)
+    for (int x = MAX_COL - 1; x > srcX; --x) {
+        if (gameMap[srcY * MAX_COL + x] != 0)
             linkable = false;
     }
-    for(int x = MAX_COL - 1; x > dstX; --x){
-        if(gameMap[dstY * MAX_COL + x] != 0)
+    for (int x = MAX_COL - 1; x > dstX; --x) {
+        if (gameMap[dstY * MAX_COL + x] != 0)
             linkable = false;
     }
-    if(linkable){
-        if(!isFrozenMode){
+    if (linkable) {
+        if (!isFrozenMode) {
             paintPoints.clear();
             paintPoints.push_back(PaintPoint(srcX, srcY));
             paintPoints.push_back(PaintPoint(MAX_COL, srcY));
@@ -348,16 +346,16 @@ bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
         return true;
     }
     linkable = true;
-    for(int y = 0; y < srcY; ++y){
-        if(gameMap[y * MAX_COL + srcX] != 0)
+    for (int y = 0; y < srcY; ++y) {
+        if (gameMap[y * MAX_COL + srcX] != 0)
             linkable = false;
     }
-    for(int y = 0; y < dstY; ++y){
-        if(gameMap[y * MAX_COL + dstX] != 0)
+    for (int y = 0; y < dstY; ++y) {
+        if (gameMap[y * MAX_COL + dstX] != 0)
             linkable = false;
     }
-    if(linkable){
-        if(!isFrozenMode){
+    if (linkable) {
+        if (!isFrozenMode) {
             paintPoints.clear();
             paintPoints.push_back(PaintPoint(srcX, srcY));
             paintPoints.push_back(PaintPoint(srcX, -1));
@@ -368,16 +366,16 @@ bool GameModel::canLinkWithTwoCorner(int srcX, int srcY, int dstX, int dstY)
     }
 
     linkable = true;
-    for(int y = MAX_ROW - 1; y > srcY; --y){
-        if(gameMap[y * MAX_COL + srcX] != 0)
+    for (int y = MAX_ROW - 1; y > srcY; --y) {
+        if (gameMap[y * MAX_COL + srcX] != 0)
             linkable = false;
     }
-    for(int y = MAX_ROW - 1; y > dstY; --y){
-        if(gameMap[y * MAX_COL + dstX] != 0)
+    for (int y = MAX_ROW - 1; y > dstY; --y) {
+        if (gameMap[y * MAX_COL + dstX] != 0)
             linkable = false;
     }
-    if(linkable){
-        if(!isFrozenMode){
+    if (linkable) {
+        if (!isFrozenMode) {
             paintPoints.clear();
             paintPoints.push_back(PaintPoint(srcX, srcY));
             paintPoints.push_back(PaintPoint(srcX, MAX_ROW));
@@ -425,10 +423,45 @@ bool GameModel::linkTwoTiles(int srcX, int srcY, int dstX, int dstY) {
     return false;
 }
 
-void GameModel::startGameWithSeed(qint64 seed) {
-    // TODO
+void GameModel::startGameWithSeed(const qint64 seed) {
+    score = 0;
+
+    hintsLast = MAXHINTS;
+
+    gameMap = new int[MAX_ROW * MAX_COL];
+    for (int i = 0; i < MAX_ROW * MAX_COL; i++)
+        gameMap[i] = 0;
+
+    hintArray = new int[4];
+    for (int i = 0; i < 4; i++)
+        hintArray[i] = -1;
+
+    gameStatus = PLAYING;
+
+    gameLevel = DAILY;
+
+    int gameLevelNum = kDailyNum;
+    // 填充方块标号
+    int iconID = 0;
+    for (int i = 0; i < gameLevelNum; i += 2) {
+        // 每次填充连着的两个，图片用尽了就循环
+        gameMap[i] = iconID % MAX_ICON + 1;
+        gameMap[i + 1] = iconID % MAX_ICON + 1;
+        iconID++;
+    }
+    // 打乱方块
+    resetWithSeed(seed);
+    // 初始化判断模式
+    isFrozenMode = false;
+    // 初始化绘制点
+    paintPoints.clear();
 }
 
-void GameModel::resetWithSeed(qint64 seed) const {
-    // TODO
+void GameModel::resetWithSeed(const qint64 seed) const {
+    // int 溢出问题，对seed取余
+    srand(abs(seed) & 25565255);
+    for (int i = 0; i < MAX_ROW * MAX_COL; i++) {
+        int randomID = rand() % (MAX_ROW * MAX_COL);
+        std::swap(gameMap[i], gameMap[randomID]);
+    }
 }

@@ -1,9 +1,10 @@
 ﻿#include "main_game_window.h"
 
 #include <QMessageBox>
+#include <QPainter>
+#include <QThread>
 
 #include "over_dialog.h"
-#include <QPainter>
 #include "login_dialog.h"
 #include "ui_main_game_window.h"
 
@@ -184,14 +185,14 @@ void MainGameWindow::onIconButtonPressed() {
     // 如果当前有方块在连接，不能点击方块
     if (isLinking) {
         // 播放音效
-        release->play();
+        if (player.isPlaying()) release->play();
         return;
     }
     // 记录当前点击的icon
     curIcon = dynamic_cast<IconButton *>(sender());
     if (!preIcon) {
         // 播放音效
-        select->play();
+        if (player.isPlaying()) select->play();
         curIcon->setStyleSheet(kIconClickedStyle);
         preIcon = curIcon;
     } else {
@@ -202,7 +203,7 @@ void MainGameWindow::onIconButtonPressed() {
                 // 锁住当前状态
                 isLinking = true;
                 // 播放成功链接音效
-                pair->play();
+                if (player.isPlaying()) pair->play();
                 //重绘, 画出连接线
                 update();
                 // 延迟后实现连接效果
@@ -227,7 +228,7 @@ void MainGameWindow::onIconButtonPressed() {
                 }
             } else {
                 // 播放音效
-                nolink->play();
+                if (player.isPlaying()) nolink->play();
                 // 消除失败，恢复
                 preIcon->setStyleSheet(kIconReleasedStyle);
                 curIcon->setStyleSheet(kIconReleasedStyle);
@@ -236,7 +237,7 @@ void MainGameWindow::onIconButtonPressed() {
             }
         } else if (curIcon == preIcon) {
             // 播放音效
-            release->play();
+            if (player.isPlaying()) release->play();
             preIcon->setStyleSheet(kIconReleasedStyle);
             curIcon->setStyleSheet(kIconReleasedStyle);
             preIcon = nullptr;
@@ -395,6 +396,22 @@ void MainGameWindow::gameOver(bool mode) {
             break;
         case HARD:
             level = "困难";
+            break;
+        case DAILY:
+            level = "日常";
+            disconnect(&networkHandler, &NetworkHandler::serverError, this, nullptr);
+            disconnect(&networkHandler, &NetworkHandler::rankUnchanged, this, nullptr);
+            disconnect(&networkHandler, &NetworkHandler::rankUpdated, this, nullptr);
+            networkHandler.putRank(game->getScore(), 1);
+            connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
+                QMessageBox::critical(this, tr("错误"), tr("服务器错误"));
+            });
+            connect(&networkHandler, &NetworkHandler::rankUnchanged, this, [this] {
+                QMessageBox::information(this, tr("信息"), tr("未达到上一次最好成绩，加油！"));
+            });
+            connect(&networkHandler, &NetworkHandler::rankUpdated, this, [this] {
+                    QMessageBox::information(this, tr("信息"), tr("最好成绩已更新！"));
+            });
     }
     //创建界面对象
     overDialog dia(mode, game->getScore(), this);
@@ -473,20 +490,71 @@ void MainGameWindow::on_recordBtn_clicked() {
 }
 
 void MainGameWindow::on_dailyButton_clicked() {
-    if (!seed) {
-        // 调用 networkHandler 获取种子
-        networkHandler.getSeed();
-        // 连接信号以处理获取到的种子
-        connect(&networkHandler, &NetworkHandler::seed, this, [this](const qint64 seed) {
-            // 显示获取到的种子
-            QMessageBox::information(this, tr("种子获取成功"), tr("获取到的种子是: %1").arg(seed));
-            this->seed = seed;
-        });
-    } else {
-        QMessageBox::information(this, tr("种子获取成功"), tr("获取到的种子是: %1").arg(seed));
+    disconnect(&networkHandler, &NetworkHandler::seed, this, nullptr);
+    // 调用 networkHandler 获取种子
+    networkHandler.getSeed();
+    // 连接信号以处理获取到的种子
+    connect(&networkHandler, &NetworkHandler::seed, this, [this](const qint64 seed) {
+        // 输出获取到的种子
+        qDebug() << tr("获取到的种子：") << seed;
+        this->seed = seed;
+        disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
+        dailyStart();
+    });
+}
+
+inline void MainGameWindow::dailyStart() {
+    delete gameTimer;
+    // 先析构之前的
+    if (game) {
+        delete game;
+        for (auto &i: imageButton) {
+            delete i;
+        }
     }
+    // 重绘
+    update();
+    // 启动游戏
+    game = new GameModel;
+    while (seed == 0) {
+        QThread::msleep(100);
+    }
+    game->startGameWithSeed(seed);
+    curLevel = DAILY;
+    ui->scoreLab->setText(QString::number(game->getScore()));
+    ui->hintsLastLab->setText(QString::number(game->getHintsLast()));
+    allFunBtnEnable(true);
+    // 根据imagemap初始化imagebutton
+    init_imageBtn(true);
+    // 进度条
+    ui->timeBar->setMaximum(kGameTimeTotal);
+    ui->timeBar->setMinimum(0);
+    ui->timeBar->setValue(kGameTimeTotal);
+    // 游戏计时器
+    gameTimer = new QTimer(this);
+    connect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
+    //设置发出timeout()信号的间隔
+    gameTimer->start(kGameTimerInterval);
+    // 连接状态值
+    preIcon = nullptr;
+    isLinking = false;
+    isReallyLinked = false;
+    // 设置难度加时
+    kBonusTime = 50;
 }
 
 void MainGameWindow::on_getRankButton_clicked() {
-    QMessageBox::information(this,tr("TODO"),tr("TODO"));
+    networkHandler.getRank();
+    disconnect(&networkHandler, &NetworkHandler::serverError, this, nullptr);
+    disconnect(&networkHandler, &NetworkHandler::rank, this, nullptr);
+    connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
+        QMessageBox::critical(this, tr("错误"), tr("服务器错误"));
+    });
+    connect(&networkHandler, &NetworkHandler::rank, this, [this](const RankingRecord* records) {
+        // TODO: 显示Ranking信息
+        QMessageBox::information(this, tr("信息"), QString::number(records->rank));
+        for (const auto &i: records->top_players) {
+            qDebug() << i->name << " " << i->score << " " << i->time;
+        }
+    });
 }

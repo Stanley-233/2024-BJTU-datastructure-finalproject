@@ -101,6 +101,7 @@ private:
     inline void allBlocksEnable(bool state);
     void init_imageBtn(bool mode);
     void gameOver(bool mode);
+    inline void dailyStart();
 };
 
 #endif // MAIN_GAME_WINDOW_H
