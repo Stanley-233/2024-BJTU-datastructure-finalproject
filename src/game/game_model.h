@@ -2,6 +2,7 @@
 #define GAMEMODEL_H
 
 #include <vector>
+#include <qtypes.h>
 
 // ------------ 全局变量 ------------ //
 // 最大行和列数
@@ -74,8 +75,8 @@ public:
     void reset() const;
 
     // 每日挑战
-    void startGameWithSeed(unsigned int seed);
-    void resetWithSeed(unsigned int seed) const;
+    void startGameWithSeed(qint64 seed);
+    void resetWithSeed(qint64 seed) const;
 
 private:
     // 游戏地图，存储方块，0表示消失，1-其他数字表示图片标号

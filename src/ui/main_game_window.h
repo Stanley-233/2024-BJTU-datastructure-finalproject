@@ -94,7 +94,7 @@ private:
 
     // Network
     NetworkHandler networkHandler;
-    int seed = 0;
+    qint64 seed = 0;
 
     void initGame(GameLevel);
     inline void allFunBtnEnable(bool);

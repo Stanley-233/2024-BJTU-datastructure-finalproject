@@ -425,10 +425,10 @@ bool GameModel::linkTwoTiles(int srcX, int srcY, int dstX, int dstY) {
     return false;
 }
 
-void GameModel::startGameWithSeed(unsigned int seed) {
+void GameModel::startGameWithSeed(qint64 seed) {
     // TODO
 }
 
-void GameModel::resetWithSeed(unsigned int seed) const {
+void GameModel::resetWithSeed(qint64 seed) const {
     // TODO
 }

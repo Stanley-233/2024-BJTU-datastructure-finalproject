@@ -111,7 +111,7 @@ void NetworkHandler::onNetworkReplay(QNetworkReply *reply) {
             QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData);
             if (jsonDoc.isObject()) {
                 QJsonObject jsonObj = jsonDoc.object();
-                const int netSeed = jsonObj["seed"].toVariant().toInt();
+                const qint64 netSeed = jsonObj["seed"].toVariant().toLongLong();
                 emit seed(netSeed);
             }
         } else {

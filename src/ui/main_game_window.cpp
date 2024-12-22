@@ -477,7 +477,7 @@ void MainGameWindow::on_dailyButton_clicked() {
         // 调用 networkHandler 获取种子
         networkHandler.getSeed();
         // 连接信号以处理获取到的种子
-        connect(&networkHandler, &NetworkHandler::seed, this, [this](const int seed) {
+        connect(&networkHandler, &NetworkHandler::seed, this, [this](const qint64 seed) {
             // 显示获取到的种子
             QMessageBox::information(this, tr("种子获取成功"), tr("获取到的种子是: %1").arg(seed));
             this->seed = seed;

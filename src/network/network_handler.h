@@ -28,7 +28,7 @@ signals:
     void serverError();
     void successfulRegister();
     void alreadyRegistered();
-    void seed(int);
+    void seed(qint64);
     void rankUpdated();
     void rankUnchanged();
     void rank(RankingRecord*);
