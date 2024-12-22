@@ -129,6 +129,7 @@ def put_rank():
             message = 'Rank updated successfully!'
         else:
             message = 'Existing record is better; no update needed.'
+            return jsonify({'message': message}), 200
     else:
         # 插入新记录
         insert_query = f'''
