@@ -6,6 +6,7 @@
 
 #include "over_dialog.h"
 #include "login_dialog.h"
+#include "ranking_dialog.h"
 #include "ui_main_game_window.h"
 
 MainGameWindow::MainGameWindow(QWidget *parent) :
@@ -376,7 +377,6 @@ void MainGameWindow::on_again(GameLevel mode) {
             delete i;
         }
     }
-    // TODO: 停止音乐
     // 重绘
     update();
     initGame(mode);
@@ -551,10 +551,20 @@ void MainGameWindow::on_getRankButton_clicked() {
         QMessageBox::critical(this, tr("错误"), tr("服务器错误"));
     });
     connect(&networkHandler, &NetworkHandler::rank, this, [this](const RankingRecord* records) {
-        // TODO: 显示Ranking信息
-        QMessageBox::information(this, tr("信息"), QString::number(records->rank));
-        for (const auto &i: records->top_players) {
-            qDebug() << i->name << " " << i->score << " " << i->time;
+        // 显示Ranking信息
+        this->on_pauseBtn_clicked();
+        QString message("当前排名：");
+        message.append(QString::number(records->rank));
+        message.append('\n');
+        message.append("前三名玩家：\n");
+        for (int i = 0; i < records->top_players.size(); i++) {
+            message.append(QString("No.%1 - %2: 分数 %3, 剩余时间 %4\n")
+                            .arg(i+1)
+                            .arg(records->top_players[i]->name)
+                            .arg(records->top_players[i]->score)
+                            .arg(records->top_players[i]->time));
         }
+        RankDialog *rankDialog = new RankDialog(this, message);
+        rankDialog->exec();
     });
 }

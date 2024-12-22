@@ -31,6 +31,9 @@ set(PROJECT_SOURCES
         src/game/game_model.h
         src/game/game_model.cpp
         src/network/ranking_record.h
+        src/ui/ranking_dialog.cpp
+        src/ui/ranking_dialog.h
+        src/ui/ranking_dialog.ui
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
