@@ -3,11 +3,11 @@
 
 #include <QThread>
 
-const int SPEED = 800;
+constexpr int SPEED = 800;
 
-class auto_conductor : public QThread
-{
+class auto_conductor : public QThread {
     Q_OBJECT
+
 public:
     auto_conductor();
 
@@ -18,12 +18,10 @@ private:
     bool flag;
 
 protected:
-    void run();
+    void run() override;
 
 signals:
-
     void permission();
-
 };
 
 #endif // AUTO_CONDUCTOR_H

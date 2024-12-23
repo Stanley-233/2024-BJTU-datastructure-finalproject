@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QPainter>
 #include <QThread>
+#include <QCloseEvent>
 
 #include "over_dialog.h"
 #include "login_dialog.h"
@@ -14,8 +15,7 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     , ui(new Ui::MainGameWindow)
     , networkHandler(NetworkHandler(this))
     , player(QMediaPlayer(this))
-    , audioOutput(QAudioOutput(this)) 
-    {
+    , audioOutput(QAudioOutput(this)) {
 
     preIcon = nullptr;
     curIcon = nullptr;
@@ -58,7 +58,7 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     lg.exec();
 
     //开启自动解题线程
-    connect(&robot,SIGNAL(permission()),this,SLOT(on_permission()));
+    connect(&robot,SIGNAL(permission()), this,SLOT(on_permission()));
     robot.start();
 
     // Sound
@@ -78,9 +78,8 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
 }
 
 MainGameWindow::~MainGameWindow() {
-    robot.exit(0);
-    if(game)
-        delete game;
+    robot.terminate();
+    delete game;
     delete ui;
 }
 
@@ -193,14 +192,16 @@ void MainGameWindow::onIconButtonPressed() {
     // 如果当前有方块在连接，不能点击方块
     if (isLinking) {
         // 播放音效
-        if (player.isPlaying()) release->play();
+        if (player.isPlaying())
+            release->play();
         return;
     }
     // 记录当前点击的icon
     curIcon = dynamic_cast<IconButton *>(sender());
     if (!preIcon) {
         // 播放音效
-        if (player.isPlaying()) select->play();
+        if (player.isPlaying())
+            select->play();
         curIcon->setStyleSheet(kIconClickedStyle);
         preIcon = curIcon;
     } else {
@@ -211,7 +212,8 @@ void MainGameWindow::onIconButtonPressed() {
                 // 锁住当前状态
                 isLinking = true;
                 // 播放成功链接音效
-                if (player.isPlaying()) pair->play();
+                if (player.isPlaying())
+                    pair->play();
                 //重绘, 画出连接线
                 update();
                 // 延迟后实现连接效果
@@ -228,7 +230,7 @@ void MainGameWindow::onIconButtonPressed() {
                 if (game->isWin())
                     // TODO:数据库记录胜利
                     gameOver(true);
-                    networkHandler.putRank(game->getScore(),ui->timeBar->value());
+                networkHandler.putRank(game->getScore(), ui->timeBar->value());
                 // 加时奖励
                 auto bonusedTime = ui->timeBar->value() + kBonusTime * kGameTimerInterval;
                 if (bonusedTime >= kGameTimeTotal) {
@@ -238,7 +240,8 @@ void MainGameWindow::onIconButtonPressed() {
                 }
             } else {
                 // 播放音效
-                if (player.isPlaying()) nolink->play();
+                if (player.isPlaying())
+                    nolink->play();
                 // 消除失败，恢复
                 preIcon->setStyleSheet(kIconReleasedStyle);
                 curIcon->setStyleSheet(kIconReleasedStyle);
@@ -247,7 +250,8 @@ void MainGameWindow::onIconButtonPressed() {
             }
         } else if (curIcon == preIcon) {
             // 播放音效
-            if (player.isPlaying()) release->play();
+            if (player.isPlaying())
+                release->play();
             preIcon->setStyleSheet(kIconReleasedStyle);
             curIcon->setStyleSheet(kIconReleasedStyle);
             preIcon = nullptr;
@@ -356,13 +360,13 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
             } else
                 btn_pos2 = imageButton[p2.y * MAX_COL + p2.x]->pos();
             // 中心点
-            #ifdef __ANDROID__
+#ifdef __ANDROID__
                 QPoint pos1(btn_pos1.x() + kIconSize / 2, btn_pos1.y() - kIconSize / 2 + 15.5);
                 QPoint pos2(btn_pos2.x() + kIconSize / 2, btn_pos2.y() - kIconSize / 2 + 15.5);
-            #else
-                QPoint pos1(btn_pos1.x() + kIconSize / 2, btn_pos1.y() - kIconSize / 2);
-                QPoint pos2(btn_pos2.x() + kIconSize / 2, btn_pos2.y() - kIconSize / 2);
-            #endif
+#else
+            QPoint pos1(btn_pos1.x() + kIconSize / 2, btn_pos1.y() - kIconSize / 2);
+            QPoint pos2(btn_pos2.x() + kIconSize / 2, btn_pos2.y() - kIconSize / 2);
+#endif
             painter.drawLine(pos1, pos2);
         }
         //如果僵局则重绘
@@ -419,7 +423,7 @@ void MainGameWindow::gameOver(bool mode) {
                 QMessageBox::information(this, tr("信息"), tr("未达到上一次最好成绩，加油！"));
             });
             connect(&networkHandler, &NetworkHandler::rankUpdated, this, [this] {
-                    QMessageBox::information(this, tr("信息"), tr("最好成绩已更新！"));
+                QMessageBox::information(this, tr("信息"), tr("最好成绩已更新！"));
             });
     }
     //创建界面对象
@@ -495,7 +499,7 @@ void MainGameWindow::on_hintBtn_clicked() {
 }
 
 void MainGameWindow::on_recordBtn_clicked() {
-    QMessageBox::information(this,tr("TODO"),tr("TODO"));
+    QMessageBox::information(this, tr("TODO"), tr("TODO"));
 }
 
 void MainGameWindow::on_dailyButton_clicked() {
@@ -557,7 +561,7 @@ void MainGameWindow::on_getRankButton_clicked() {
     connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
         QMessageBox::critical(this, tr("错误"), tr("服务器错误"));
     });
-    connect(&networkHandler, &NetworkHandler::rank, this, [this](const RankingRecord* records) {
+    connect(&networkHandler, &NetworkHandler::rank, this, [this](const RankingRecord *records) {
         // 显示Ranking信息
         this->on_pauseBtn_clicked();
         QString message("当前排名：");
@@ -566,64 +570,51 @@ void MainGameWindow::on_getRankButton_clicked() {
         message.append("前三名玩家：\n");
         for (int i = 0; i < records->top_players.size(); i++) {
             message.append(QString("No.%1 - %2: 分数 %3, 剩余时间 %4 %\n")
-                            .arg(i+1)
-                            .arg(records->top_players[i]->name)
-                            .arg(records->top_players[i]->score)
-                            .arg(records->top_players[i]->time == 1 ? 0 : records->top_players[i]->time));
+                           .arg(i + 1)
+                           .arg(records->top_players[i]->name)
+                           .arg(records->top_players[i]->score)
+                           .arg(records->top_players[i]->time == 1 ? 0 : records->top_players[i]->time));
         }
         auto *rankDialog = new RankDialog(this, message);
         rankDialog->exec();
     });
 }
 
-void MainGameWindow::on_robot_btn_clicked()
-{
-    if(robot.getFlag()){
+void MainGameWindow::on_robot_btn_clicked() {
+    if (robot.getFlag()) {
         robot.setFlag(false);
-        ui->robot_btn->setText("auto");
+        ui->robot_btn->setText("自动");
         ui->pauseBtn->setEnabled(true);
         ui->hintBtn->setEnabled(true);
         ui->resetBtn->setEnabled(true);
-    }else{
+    } else {
         robot.setFlag(true);
-        ui->robot_btn->setText("stop");
+        ui->robot_btn->setText("停止自动");
         ui->pauseBtn->setEnabled(false);
         ui->hintBtn->setEnabled(false);
         ui->resetBtn->setEnabled(false);
     }
 }
 
-void MainGameWindow::on_permission()
-{
+void MainGameWindow::on_permission() {
     // 连接生成提示
-
     int srcX = game->getHint()[0];
     int srcY = game->getHint()[1];
     int dstX = game->getHint()[2];
     int dstY = game->getHint()[3];
-
-           // 播放音效
-           // QSound::play(":/res/sound/pair.wav");
-
-
     game->linkTwoTiles(srcX, srcY, dstX, dstY);
-
     preIcon = imageButton[srcY * MAX_COL + srcX];
     curIcon = imageButton[dstY * MAX_COL + dstX];
-
-           //重绘
+    //重绘
     update();
-
-           //实现连接效果
+    //实现连接效果
     QTimer::singleShot(kLinkTimerDelay, this, SLOT(handleLinkEffect()));
-
-           // 检查是否胜利
-    if (game->isWin()){
+    // 检查是否胜利
+    if (game->isWin()) {
         //让自动线程停止
         robot.setFlag(false);
         //还原按钮状态
         ui->robot_btn->setText("auto");
-        gameOver(1);
+        gameOver(true);
     }
-
 }
