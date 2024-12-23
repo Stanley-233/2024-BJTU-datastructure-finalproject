@@ -2,6 +2,7 @@
 #define AUTO_CONDUCTOR_H
 
 #include <QThread>
+#include <QMutex>
 
 constexpr int SPEED = 800;
 
@@ -16,6 +17,7 @@ public:
 
 private:
     bool flag;
+    QMutex mutex;
 
 protected:
     void run() override;

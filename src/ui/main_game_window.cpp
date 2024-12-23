@@ -235,15 +235,14 @@ void MainGameWindow::onIconButtonPressed() {
                 ui->scoreLab->setText(QString::number(game->getScore()));
                 isReallyLinked = false;
                 if (game->isWin())
-                    // TODO:数据库记录胜利
+                    // 数据库记录胜利在内部
                     gameOver(true);
-                networkHandler.putRank(game->getScore(), ui->timeBar->value());
                 // 加时奖励
-                auto bonusedTime = ui->timeBar->value() + kBonusTime * kGameTimerInterval;
-                if (bonusedTime >= kGameTimeTotal) {
+                const auto bonusTime = ui->timeBar->value() + kBonusTime * kGameTimerInterval;
+                if (bonusTime >= kGameTimeTotal) {
                     ui->timeBar->setValue(kGameTimeTotal);
                 } else {
-                    ui->timeBar->setValue(bonusedTime);
+                    ui->timeBar->setValue(bonusTime);
                 }
             } else {
                 // 播放音效
@@ -269,8 +268,8 @@ void MainGameWindow::onIconButtonPressed() {
 
 void MainGameWindow::handleLinkEffect() {
     game->paintPoints.clear();
-    preIcon->hide();
-    curIcon->hide();
+    if (preIcon != nullptr) preIcon->hide();
+    if (curIcon != nullptr) curIcon->hide();
     preIcon = nullptr;
     curIcon = nullptr;
     // 重绘
@@ -388,6 +387,7 @@ bool MainGameWindow::eventFilter(QObject *watched, QEvent *event) {
 }
 
 void MainGameWindow::on_again(GameLevel mode) {
+    if (robot.getFlag()) on_robot_btn_clicked();
     disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
     delete gameTimer;
     // 先析构之前的
@@ -403,6 +403,7 @@ void MainGameWindow::on_again(GameLevel mode) {
 }
 
 void MainGameWindow::gameOver(bool mode) {
+    if (robot.getFlag()) on_robot_btn_clicked();
     //停止进度条
     gameTimer->stop();
     QString level;
@@ -418,12 +419,13 @@ void MainGameWindow::gameOver(bool mode) {
             break;
         case DAILY:
             level = "日常";
-            record re{networkHandler.getUserName(), level, game->getScore()};
-            userData.singleInsertData(re);
             disconnect(&networkHandler, &NetworkHandler::serverError, this, nullptr);
             disconnect(&networkHandler, &NetworkHandler::rankUnchanged, this, nullptr);
             disconnect(&networkHandler, &NetworkHandler::rankUpdated, this, nullptr);
-            networkHandler.putRank(game->getScore(), 1);
+            auto time = 1;
+            // 剩余时间计算
+            if (mode) time = 100 * ui->timeBar->value() / kGameTimeTotal;
+            networkHandler.putRank(game->getScore(), time);
             connect(&networkHandler, &NetworkHandler::serverError, this, [this] {
                 QMessageBox::critical(this, tr("错误"), tr("服务器错误"));
             });
@@ -434,6 +436,9 @@ void MainGameWindow::gameOver(bool mode) {
                 QMessageBox::information(this, tr("信息"), tr("最好成绩已更新！"));
             });
     }
+    // 数据库
+    record re{networkHandler.getUserName(), level, game->getScore()};
+    userData.singleInsertData(re);
     //创建界面对象
     overDialog dia(mode, game->getScore(), this);
     connect(&dia,SIGNAL(again(GameLevel)), this,SLOT(on_again(GameLevel)));
@@ -454,11 +459,12 @@ void MainGameWindow::informationDisplay() {
         QMessageBox::information(this, "小组成员",
                                  "54shitaimzf      Billybilly233\n"
                                  "lalalangren      Stanley-233(组长)\n"
-                                 "(按字典序排序)");
+                                 "(按字典序)");
     }
 }
 
 void MainGameWindow::createGameWithLevel() {
+    if (robot.getFlag()) on_robot_btn_clicked();
     disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
     delete gameTimer;
     // 先析构之前的
@@ -518,7 +524,7 @@ void MainGameWindow::on_recordBtn_clicked() {
         records += QString::number(temp.value(2).toInt())+"\t";
         records += "\n";
     }
-    QMessageBox::information(this,"message",records);
+    QMessageBox::information(this,"个人记录",records);
 }
 
 void MainGameWindow::on_dailyButton_clicked() {
@@ -628,12 +634,21 @@ void MainGameWindow::on_permission() {
     update();
     //实现连接效果
     QTimer::singleShot(kLinkTimerDelay, this, SLOT(handleLinkEffect()));
+    auto bonusTime = ui->timeBar->value() + kBonusTime * kGameTimerInterval;
+    if (bonusTime >= kGameTimeTotal) {
+        ui->timeBar->setValue(kGameTimeTotal);
+    } else {
+        ui->timeBar->setValue(bonusTime);
+    }
+    auto currentScore = game->getScore();
+    game->setScore(currentScore-3);
+    ui->scoreLab->setText(QString::number(game->getScore()));
     // 检查是否胜利
     if (game->isWin()) {
         //让自动线程停止
         robot.setFlag(false);
         //还原按钮状态
-        ui->robot_btn->setText("auto");
+        ui->robot_btn->setText("自动");
         gameOver(true);
     }
 }

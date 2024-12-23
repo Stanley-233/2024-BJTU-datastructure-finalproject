@@ -6,16 +6,18 @@ auto_conductor::auto_conductor() {
 }
 
 void auto_conductor::setFlag(bool flag) {
+    QMutexLocker locker(&mutex);
     this->flag = flag;
 }
 
 bool auto_conductor::getFlag() {
+    QMutexLocker locker(&mutex);
     return flag;
 }
 
 void auto_conductor::run() {
     while (true) {
-        if (flag) {
+        if (getFlag()) {
             //发出允许动作信号
             emit permission();
         }
