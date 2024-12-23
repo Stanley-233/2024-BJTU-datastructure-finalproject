@@ -219,7 +219,9 @@ void MainGameWindow::onIconButtonPressed() {
                 ui->scoreLab->setText(QString::number(game->getScore()));
                 isReallyLinked = false;
                 if (game->isWin())
+                    // TODO:数据库记录胜利
                     gameOver(true);
+                    networkHandler.putRank(game->getScore(),ui->timeBar->value());
                 // 加时奖励
                 auto bonusedTime = ui->timeBar->value() + kBonusTime * kGameTimerInterval;
                 if (bonusedTime >= kGameTimeTotal) {
@@ -556,13 +558,13 @@ void MainGameWindow::on_getRankButton_clicked() {
         message.append('\n');
         message.append("前三名玩家：\n");
         for (int i = 0; i < records->top_players.size(); i++) {
-            message.append(QString("No.%1 - %2: 分数 %3, 剩余时间 %4\n")
+            message.append(QString("No.%1 - %2: 分数 %3, 剩余时间 %4 %\n")
                             .arg(i+1)
                             .arg(records->top_players[i]->name)
                             .arg(records->top_players[i]->score)
-                            .arg(records->top_players[i]->time));
+                            .arg(records->top_players[i]->time == 1 ? 0 : records->top_players[i]->time));
         }
-        RankDialog *rankDialog = new RankDialog(this, message);
+        auto *rankDialog = new RankDialog(this, message);
         rankDialog->exec();
     });
 }

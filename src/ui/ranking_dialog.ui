@@ -1,76 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RankDialog</class>
- <widget class="QDialog" name="RankDialog">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>550</width>
-    <height>400</height>
-   </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>550</width>
-    <height>400</height>
-   </size>
-  </property>
-  <property name="windowTitle">
-   <string>巡旅联觉：每日挑战排名</string>
-  </property>
-  <widget class="QPushButton" name="returnButton">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>340</y>
-     <width>101</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Microsoft YaHei</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>返回</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="textEdit">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>180</y>
-     <width>261</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>思源宋体 CN</family>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LayoutDirection::LeftToRight</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgba(255, 255, 255, 0);
-color: white;</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
- </widget>
- <resources/>
- <connections/>
+    <class>RankDialog</class>
+    <widget class="QDialog" name="RankDialog">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>550</width>
+                <height>400</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="minimumSize">
+            <size>
+                <width>550</width>
+                <height>400</height>
+            </size>
+        </property>
+        <property name="windowTitle">
+            <string>巡旅联觉：每日挑战排名</string>
+        </property>
+        <widget class="QPushButton" name="returnButton">
+            <property name="geometry">
+                <rect>
+                    <x>230</x>
+                    <y>340</y>
+                    <width>101</width>
+                    <height>51</height>
+                </rect>
+            </property>
+            <property name="font">
+                <font>
+                    <family>Microsoft YaHei</family>
+                    <pointsize>11</pointsize>
+                </font>
+            </property>
+            <property name="text">
+                <string>返回</string>
+            </property>
+        </widget>
+        <widget class="QTextEdit" name="textEdit">
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>180</y>
+                    <width>261</width>
+                    <height>151</height>
+                </rect>
+            </property>
+            <property name="font">
+                <font>
+                    <family>思源宋体 CN</family>
+                    <pointsize>10</pointsize>
+                </font>
+            </property>
+            <property name="layoutDirection">
+                <enum>Qt::LayoutDirection::LeftToRight</enum>
+            </property>
+            <property name="styleSheet">
+                <string notr="true">background-color: rgba(255, 255, 255, 0);
+                    color: white;
+                </string>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
 </ui>
