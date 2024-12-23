@@ -34,6 +34,8 @@ set(PROJECT_SOURCES
         src/ui/ranking_dialog.cpp
         src/ui/ranking_dialog.h
         src/ui/ranking_dialog.ui
+        src/database/user_database.h
+        src/database/user_database.cpp
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)

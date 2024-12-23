@@ -7,15 +7,13 @@
 #include <QSqlError>
 #include <QDebug>
 
-typedef struct
-{
+typedef struct {
     QString account;
     QString level;
     int score;
-}record;
+} record;
 
-class User_database
-{
+class User_database {
 public:
     User_database();
 
@@ -34,9 +32,8 @@ public:
     void closeDb(void);
 
 private:
-    QSqlDatabase database;// 用于建立和数据库的连接
+    QSqlDatabase database; // 用于建立和数据库的连接
 };
-
 
 
 #endif // USER_DATABASE_H

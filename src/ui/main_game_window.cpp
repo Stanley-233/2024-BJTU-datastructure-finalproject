@@ -495,8 +495,6 @@ void MainGameWindow::on_dailyButton_clicked() {
     networkHandler.getSeed();
     // 连接信号以处理获取到的种子
     connect(&networkHandler, &NetworkHandler::seed, this, [this](const qint64 seed) {
-        // 输出获取到的种子
-        qDebug() << tr("获取到的种子：") << seed;
         this->seed = seed;
         disconnect(gameTimer, &QTimer::timeout, this, &MainGameWindow::gameTimerEvent);
         dailyStart();
