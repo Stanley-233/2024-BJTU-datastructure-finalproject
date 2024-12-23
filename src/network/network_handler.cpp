@@ -50,7 +50,7 @@ void NetworkHandler::getSeed() {
 }
 
 void NetworkHandler::putRank(int score, int time) {
-    QNetworkRequest request(QUrl("http://127.0.0.1:5000/put_rank"));
+    QNetworkRequest request(QUrl("http://llk.bearingwall.top/put_rank"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject json;
     json["username"] = username;
@@ -64,7 +64,7 @@ void NetworkHandler::putRank(int score, int time) {
 }
 
 void NetworkHandler::getRank() {
-    QNetworkRequest request(QUrl("http://127.0.0.1:5000/get_rank"));
+    QNetworkRequest request(QUrl("http://llk.bearingwall.top/get_rank"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject json;
     json["username"] = username;
