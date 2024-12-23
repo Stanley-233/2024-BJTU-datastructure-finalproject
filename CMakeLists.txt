@@ -30,6 +30,8 @@ set(PROJECT_SOURCES
         src/ui/over_dialog.ui
         src/game/game_model.h
         src/game/game_model.cpp
+        src/game/auto_conductor.cpp
+        src/game/auto_conductor.h
         src/network/ranking_record.h
         src/ui/ranking_dialog.cpp
         src/ui/ranking_dialog.h

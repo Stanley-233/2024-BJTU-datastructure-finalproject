@@ -57,6 +57,10 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     connect(this, &MainGameWindow::login_dialog_message, &lg, &LoginDialog::on_DialogState);
     lg.exec();
 
+    //开启自动解题线程
+    connect(&robot,SIGNAL(permission()),this,SLOT(on_permission()));
+    robot.start();
+
     // Sound
     release->setSource(QUrl::fromLocalFile(":/res/sound/release.wav"));
     pair->setSource(QUrl::fromLocalFile(":/res/sound/pair.wav"));
@@ -74,6 +78,9 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
 }
 
 MainGameWindow::~MainGameWindow() {
+    robot.exit(0);
+    if(game)
+        delete game;
     delete ui;
 }
 
@@ -567,4 +574,56 @@ void MainGameWindow::on_getRankButton_clicked() {
         auto *rankDialog = new RankDialog(this, message);
         rankDialog->exec();
     });
+}
+
+void MainGameWindow::on_robot_btn_clicked()
+{
+    if(robot.getFlag()){
+        robot.setFlag(false);
+        ui->robot_btn->setText("auto");
+        ui->pauseBtn->setEnabled(true);
+        ui->hintBtn->setEnabled(true);
+        ui->resetBtn->setEnabled(true);
+    }else{
+        robot.setFlag(true);
+        ui->robot_btn->setText("stop");
+        ui->pauseBtn->setEnabled(false);
+        ui->hintBtn->setEnabled(false);
+        ui->resetBtn->setEnabled(false);
+    }
+}
+
+void MainGameWindow::on_permission()
+{
+    // 连接生成提示
+
+    int srcX = game->getHint()[0];
+    int srcY = game->getHint()[1];
+    int dstX = game->getHint()[2];
+    int dstY = game->getHint()[3];
+
+           // 播放音效
+           // QSound::play(":/res/sound/pair.wav");
+
+
+    game->linkTwoTiles(srcX, srcY, dstX, dstY);
+
+    preIcon = imageButton[srcY * MAX_COL + srcX];
+    curIcon = imageButton[dstY * MAX_COL + dstX];
+
+           //重绘
+    update();
+
+           //实现连接效果
+    QTimer::singleShot(kLinkTimerDelay, this, SLOT(handleLinkEffect()));
+
+           // 检查是否胜利
+    if (game->isWin()){
+        //让自动线程停止
+        robot.setFlag(false);
+        //还原按钮状态
+        ui->robot_btn->setText("auto");
+        gameOver(1);
+    }
+
 }

@@ -8,7 +8,7 @@
 #include <QMediaPlayer>
 #include <QSoundEffect>
 #include <QAudioOutput>
-
+#include "../game/auto_conductor.h"
 #include "../network/network_handler.h"
 #include "../game/game_model.h"
 
@@ -51,6 +51,7 @@ public:
     bool eventFilter(QObject *watched, QEvent *event) override; // 事件过滤
 
 private slots:
+    void on_permission();
     void onLoginMessage(bool mode, QString name, QString password);
     void on_muteBtn_clicked();
     void on_hintBtn_clicked(); // 提示按钮
@@ -66,6 +67,8 @@ private slots:
     void on_exit();
     void informationDisplay();
     void createGameWithLevel();
+    void on_robot_btn_clicked();
+
 signals:
     void login_dialog_message(bool isSuccess, bool mode, QString info);
 
@@ -91,6 +94,7 @@ private:
     GameLevel curLevel;
     bool isLinking; // 维持一个连接状态的标志
     bool isReallyLinked;
+    auto_conductor robot;
 
     // Network
     NetworkHandler networkHandler;
