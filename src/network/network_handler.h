@@ -20,6 +20,7 @@ public:
     void getSeed();
     void putRank(int score, int time);
     void getRank();
+    const QString & getUserName() const;
 
 signals:
     void successfulLogin();

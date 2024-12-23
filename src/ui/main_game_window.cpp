@@ -74,6 +74,13 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
     player.setLoops(-1); // 无限循环
     player.play();
 
+    //Database
+    userData = User_database();
+    userData.openDb();
+
+    if(!userData.isTableExist(networkHandler.getUserName()))
+        userData.createTable(networkHandler.getUserName());
+
     initGame(BASIC);
 }
 
@@ -398,7 +405,6 @@ void MainGameWindow::on_again(GameLevel mode) {
 void MainGameWindow::gameOver(bool mode) {
     //停止进度条
     gameTimer->stop();
-    // TODO: 记录游戏数据
     QString level;
     switch (curLevel) {
         case BASIC:
@@ -412,6 +418,8 @@ void MainGameWindow::gameOver(bool mode) {
             break;
         case DAILY:
             level = "日常";
+            record re{networkHandler.getUserName(), level, game->getScore()};
+            userData.singleInsertData(re);
             disconnect(&networkHandler, &NetworkHandler::serverError, this, nullptr);
             disconnect(&networkHandler, &NetworkHandler::rankUnchanged, this, nullptr);
             disconnect(&networkHandler, &NetworkHandler::rankUpdated, this, nullptr);
@@ -434,7 +442,7 @@ void MainGameWindow::gameOver(bool mode) {
 }
 
 void MainGameWindow::on_exit() {
-    //TODO: 数据库
+    userData.closeDb();
     exit(0);
 }
 
@@ -499,7 +507,18 @@ void MainGameWindow::on_hintBtn_clicked() {
 }
 
 void MainGameWindow::on_recordBtn_clicked() {
-    QMessageBox::information(this, tr("TODO"), tr("TODO"));
+    QString records = "";
+    records += "你好！ "+ networkHandler.getUserName() +"\n";
+    records += "你的个人记录:\n";
+    records += "No.\t难度\t分数\t\n";
+    QSqlQuery temp = userData.queryTable(networkHandler.getUserName());
+    while(temp.next()){
+        records += QString::number(temp.value(0).toInt())+"\t";
+        records += temp.value(1).toString()+"\t";
+        records += QString::number(temp.value(2).toInt())+"\t";
+        records += "\n";
+    }
+    QMessageBox::information(this,"message",records);
 }
 
 void MainGameWindow::on_dailyButton_clicked() {

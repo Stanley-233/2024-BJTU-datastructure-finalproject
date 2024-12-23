@@ -8,6 +8,7 @@
 #include <QMediaPlayer>
 #include <QSoundEffect>
 #include <QAudioOutput>
+#include "../database/user_database.h"
 #include "../game/auto_conductor.h"
 #include "../network/network_handler.h"
 #include "../game/game_model.h"
@@ -99,6 +100,9 @@ private:
     // Network
     NetworkHandler networkHandler;
     qint64 seed = 0;
+
+    //database
+    User_database userData;
 
     void initGame(GameLevel);
     inline void allFunBtnEnable(bool);

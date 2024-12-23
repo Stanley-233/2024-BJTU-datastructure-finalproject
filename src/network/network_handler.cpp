@@ -164,3 +164,7 @@ void NetworkHandler::onNetworkReplay(QNetworkReply *reply) {
     }
     reply->deleteLater();
 }
+
+const QString & NetworkHandler::getUserName() const{
+    return username;
+}
