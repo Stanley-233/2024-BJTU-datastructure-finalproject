@@ -38,6 +38,9 @@ set(PROJECT_SOURCES
         src/ui/ranking_dialog.ui
         src/database/user_database.h
         src/database/user_database.cpp
+        ${RES_FILES}
+        res/icon.rc
+        ${TS_FILES}
 )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -46,8 +49,8 @@ if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
             ${PROJECT_SOURCES}
     )
     # Define target properties for Android with Qt 6 as:
-    #    set_property(TARGET traveller-linkage APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-    #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+        # set_property(TARGET traveller-linkage APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+        #              ${CMAKE_CURRENT_SOURCE_DIR}/android)
     # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else ()
     if (ANDROID)
@@ -55,7 +58,7 @@ else ()
                 ${PROJECT_SOURCES}
         )
         # Define properties for Android with Qt 5 after find_package() calls as:
-        #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+            # set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else ()
         add_executable(traveller-linkage
                 ${PROJECT_SOURCES}

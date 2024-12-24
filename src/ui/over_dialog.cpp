@@ -24,7 +24,8 @@ overDialog::overDialog(const bool mode, const int score, QWidget *parent) :
     ui->score->setText(QString::number(score));
 
     setFixedSize(geometry().size());
-    setWindowTitle("游戏结束");
+    setWindowTitle("巡旅联觉：游戏结束");
+    setWindowIcon(QIcon(":/res/image/icon.ico"));
 }
 
 overDialog::~overDialog() {

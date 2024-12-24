@@ -22,7 +22,8 @@ MainGameWindow::MainGameWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->centralWidget->installEventFilter(this);
-    this->setWindowTitle("巡旅联觉 - Traveller's Linkage");
+    setWindowTitle("巡旅联觉 - Traveller's Linkage");
+    setWindowIcon(QIcon(":/res/image/icon.ico"));
 
     // Menu
     connect(ui->actionBasic, &QAction::triggered, this, &MainGameWindow::createGameWithLevel);

@@ -23,6 +23,7 @@
         <file>res/image/background.jpg</file>
         <file>res/image/close.png</file>
         <file>res/image/open.png</file>
+        <file>res/image/icon.ico</file>
 
         <file>res/dialog/gameover.png</file>
         <file>res/dialog/victory.png</file>

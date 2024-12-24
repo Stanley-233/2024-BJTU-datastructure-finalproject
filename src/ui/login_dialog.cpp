@@ -13,6 +13,7 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui(new Ui::LoginDialog) {
     ui->setupUi(this);
     setWindowTitle("巡旅联觉：登录");
+    setWindowIcon(QIcon(":/res/image/icon.ico"));
     tap = new QSoundEffect(this);
     done = new QSoundEffect(this);
     done->setSource(QUrl::fromLocalFile(":/res/sound/success.wav"));

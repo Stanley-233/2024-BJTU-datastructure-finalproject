@@ -17,6 +17,7 @@ RankDialog::RankDialog(QWidget *parent, const QString& message) :
     ui->textEdit->setPlainText(message);
     ui->textEdit->setAlignment(Qt::AlignCenter);
     ui->textEdit->setTextColor(Qt::white);
+    setWindowIcon(QIcon(":/res/image/icon.ico"));
 }
 
 RankDialog::~RankDialog() {

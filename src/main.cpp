@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
     a.setStyleSheet("QWidget { background-color: white; color: black; }");
     MainGameWindow w;
     w.setFixedSize(w.geometry().size());
+    w.setWindowIcon(QIcon(":/res/image/icon.ico"));
     w.show();
     return a.exec();
 }
