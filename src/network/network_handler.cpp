@@ -11,7 +11,7 @@ NetworkHandler::NetworkHandler(QObject *parent) :
 void NetworkHandler::login(const QString &username,
                            const QString &password) {
     // Changed it to deployment
-    QNetworkRequest request(QUrl("http://llk.bearingwall.top/login"));
+    QNetworkRequest request(QUrl("http://127.0.0.1:5000/login"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     this->username = username;
@@ -28,7 +28,7 @@ void NetworkHandler::login(const QString &username,
 void NetworkHandler::registerUser(const QString &username,
                                   const QString &password) const {
     // Changed it to deployment
-    QNetworkRequest request(QUrl("http://llk.bearingwall.top/register"));
+    QNetworkRequest request(QUrl("http://127.0.0.1:5000/register"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QJsonObject json;
@@ -43,14 +43,14 @@ void NetworkHandler::registerUser(const QString &username,
 
 void NetworkHandler::getSeed() {
     // Changed it to deployment
-    QNetworkRequest request(QUrl("http://llk.bearingwall.top/seed"));
+    QNetworkRequest request(QUrl("http://127.0.0.1:5000/seed"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QNetworkReply *reply = networkManager->get(request);
     reply->setProperty("requestType", "seed");
 }
 
 void NetworkHandler::putRank(int score, int time) {
-    QNetworkRequest request(QUrl("http://llk.bearingwall.top/put_rank"));
+    QNetworkRequest request(QUrl("http://127.0.0.1:5000/put_rank"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject json;
     json["username"] = username;
@@ -64,7 +64,7 @@ void NetworkHandler::putRank(int score, int time) {
 }
 
 void NetworkHandler::getRank() {
-    QNetworkRequest request(QUrl("http://llk.bearingwall.top/get_rank"));
+    QNetworkRequest request(QUrl("http://127.0.0.1:5000/get_rank"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     QJsonObject json;
     json["username"] = username;
